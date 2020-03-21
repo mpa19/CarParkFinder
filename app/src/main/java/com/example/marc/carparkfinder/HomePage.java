@@ -14,7 +14,7 @@ public class HomePage extends AppCompatActivity {
         setContentView(R.layout.activity_home_page);
     }
 
-    public void btnR(View v){
+    public void btnV(View v){
         Intent i = new Intent(this, DetailsParking.class);
         startActivity(i);
     }

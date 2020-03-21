@@ -40,8 +40,8 @@ public class DetailsParking extends FragmentActivity implements OnMapReadyCallba
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng recto = new LatLng(41.615451, 0.618851);
+        mMap.addMarker(new MarkerOptions().position(recto).title("Carrer del Bisbe Messeguer, 2, 25003 Lleida"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(recto, 17.0f));
     }
 }
