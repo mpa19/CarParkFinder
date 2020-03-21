@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">CarParkFinder</string>
+    <string name="btnR">RESERVAR</string>
+    <string name="btnV">veure més</string>
+    <string name="rect">Campus de Rectorat</string>
+    <string name="cap">Campus de Cappont</string>
+    <string name="salut">Campus de Ciències de la Salut</string>
+    <string name="etsa">Campus de l’ETSEA</string>
+    <string name="title_activity_details_parking">Map</string>
+    <string name="info">Informació</string>
+    <string name="llegar">com arribar</string>
+    <string name="desc">Descripció</string>
+    <string name="descRe">El pàrquing de Rectorat disposa de 62 places d’aparcament per a cotxes i 12 per a motos, totes elles degudament senyalitzades.</string>
+    <string name="hora">Horari</string>
+    <string name="horaRe">L’horari d’utilització serà de 7.00 a 23.00 hores, de dilluns a divendres laborals i de 7.00 a 15.00, dissabtes laborables.
+        Per tal de facilitar el bon ús de l’aparcament, durant les nits, caps de setmana i
+        festius no podrà quedar cap vehicle aparcat dins la zona d’aparcaments UdL, excepte en aquells
+        casos, per raons de feina, hagi estat prèviament autoritzat per l’Administrador/a del Campus.</string>
+    <string name="acc">Accés</string>
+    <string name="accRe">L’accés a l’aparcament estarà restringit a les persones autoritzades i es farà mitjançant el carnet de la
+        UdL que identifica a tots els membres de la comunitat universitària.</string>
+
+
+
+
+
+
+
+
+
+
 </resources>

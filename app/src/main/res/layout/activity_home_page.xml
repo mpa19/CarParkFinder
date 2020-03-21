@@ -32,11 +32,11 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="22dp"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="19dp"
                 android:layout_weight="1"
                 android:fontFamily="serif"
-                android:text="CarParkFinder"
+                android:text="@string/app_name"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold|italic" />
@@ -48,8 +48,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="20dp"
-            android:layout_weight="1">
+            android:layout_marginBottom="12dp"
+            android:layout_weight="0.8">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:text="Campus del Rectorat "
+                        android:text="@string/rect"
                         android:textAlignment="center"
                         android:textColor="#817F0047"
                         android:textSize="24sp"
@@ -94,7 +94,8 @@
                             android:layout_weight="1"
                             android:backgroundTint="#7F0047"
                             android:fontFamily="sans-serif"
-                            android:text="Reservar"
+                            android:onClick="btnR"
+                            android:text="@string/btnR"
                             android:textColor="#FFFFFF"
                             android:textStyle="bold" />
 
@@ -104,7 +105,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:backgroundTint="#7F0047"
-                            android:text="Button"
+                            android:text="@string/btnV"
                             android:textColor="#FFFFFF" />
                     </LinearLayout>
                 </LinearLayout>
@@ -127,7 +128,7 @@
                         android:id="@+id/textView1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Campus del Cappont"
+                        android:text="@string/cap"
                         android:textAlignment="center"
                         android:textColor="#817F0047"
                         android:textSize="24sp"
@@ -151,7 +152,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:backgroundTint="#7F0047"
-                            android:text="Button"
+                            android:text="@string/btnR"
                             android:textColor="#FFFFFF" />
 
                         <Button
@@ -160,7 +161,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:backgroundTint="#7F0047"
-                            android:text="Button"
+                            android:text="@string/btnV"
                             android:textColor="#FFFFFF" />
                     </LinearLayout>
                 </LinearLayout>
@@ -176,7 +177,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginRight="18dp"
                     android:alpha="0.5"
                     android:orientation="vertical">
@@ -186,7 +186,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:text="Campus del Rectorat "
+                        android:text="@string/salut"
                         android:textAlignment="center"
                         android:textColor="#817F0047"
                         android:textSize="24sp"
@@ -196,7 +196,7 @@
                         android:id="@+id/imageView3"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
-                        android:background="@drawable/rectorat" />
+                        android:background="@drawable/salut" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -208,14 +208,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Button" />
+                            android:backgroundTint="#7F0047"
+                            android:text="@string/btnR"
+                            android:textColor="#FFFFFF" />
 
                         <Button
                             android:id="@+id/button7"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Button" />
+                            android:backgroundTint="#7F0047"
+                            android:text="@string/btnV"
+                            android:textColor="#FFFFFF" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -230,7 +234,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginRight="18dp"
                     android:alpha="0.5"
                     android:orientation="vertical">
@@ -240,17 +243,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:text="Campus del Rectorat "
+                        android:text="@string/etsa"
                         android:textAlignment="center"
                         android:textColor="#817F0047"
-                        android:textSize="20sp"
+                        android:textSize="24sp"
                         android:textStyle="bold" />
 
                     <ImageView
                         android:id="@+id/imageView4"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
-                        android:background="@drawable/rectorat" />
+                        android:background="@drawable/etsea" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -262,14 +265,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Button" />
+                            android:backgroundTint="#7F0047"
+                            android:text="@string/btnR"
+                            android:textColor="#FFFFFF" />
 
                         <Button
                             android:id="@+id/button9"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Button" />
+                            android:backgroundTint="#7F0047"
+                            android:text="@string/btnV"
+                            android:textColor="#FFFFFF" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -281,7 +288,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
-            android:layout_weight="5.4"
+            android:layout_weight="5.5"
             android:orientation="horizontal">
 
             <ImageButton
