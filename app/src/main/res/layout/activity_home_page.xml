@@ -106,7 +106,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="10dp"
                                 android:gravity="center_horizontal|center_vertical"
-                                android:text="62/62"
+                                android:text="60/62"
                                 android:textColor="#38D101"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
@@ -152,6 +152,7 @@
                             android:layout_weight="1"
                             android:backgroundTint="#7F0047"
                             android:fontFamily="sans-serif"
+                            android:onClick="btnR"
                             android:text="@string/btnR"
                             android:textColor="#FFFFFF"
                             android:textStyle="bold" />

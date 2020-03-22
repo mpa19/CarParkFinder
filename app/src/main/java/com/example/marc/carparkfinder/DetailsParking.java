@@ -2,7 +2,9 @@ package com.example.marc.carparkfinder;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -43,5 +45,14 @@ public class DetailsParking extends FragmentActivity implements OnMapReadyCallba
         LatLng recto = new LatLng(41.615451, 0.618851);
         mMap.addMarker(new MarkerOptions().position(recto).title("Carrer del Bisbe Messeguer, 2, 25003 Lleida"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(recto, 17.0f));
+    }
+
+    public void btnR(View v){
+        Intent i = new Intent(this, Reservar.class);
+        startActivity(i);
+    }
+
+    public void back(View v){
+        finish();
     }
 }

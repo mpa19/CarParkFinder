@@ -19,10 +19,14 @@
     <string name="acc">Accés</string>
     <string name="accRe">L’accés a l’aparcament estarà restringit a les persones autoritzades i es farà mitjançant el carnet de la
         UdL que identifica a tots els membres de la comunitat universitària.</string>
-
-
-
-
+    <string name="loc">Localització</string>
+    <string name="locRe">Carrer del Bisbe Messeguer, 2, 25003 Lleida</string>
+    <string name="horaEn">Hora</string>
+    <string name="horaEntrada">Hora d’entrada:</string>
+    <string name="horaSortida">Hora de sortida:</string>
+    <string name="tipus">Tipus de vehicle:</string>
+    <string name="placa">Plaça:</string>
+    <string name="placaS">Canviar</string>
 
 
 
