@@ -30,9 +30,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="11dp"
-            android:layout_marginTop="19dp"
             android:layout_weight="1"
             android:fontFamily="serif"
+            android:gravity="center_vertical"
             android:text="@string/btnR"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="25dp"
         android:layout_weight="0.9"
         android:orientation="vertical">
 
@@ -74,7 +74,7 @@
                     android:id="@+id/imageView8"
                     android:layout_width="80dp"
                     android:layout_height="50dp"
-                    android:layout_marginLeft="40dp"
+                    android:layout_marginLeft="25dp"
                     android:background="@drawable/car" />
 
                 <TextView
@@ -121,7 +121,6 @@
             android:id="@+id/textView18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
             android:text="@string/horaEn"
             android:textColor="#7F0047"
@@ -188,7 +187,6 @@
             android:id="@+id/textView24"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="30dp"
             android:text="@string/tipus"
             android:textColor="#7F0047"
@@ -236,7 +234,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="30dp"
             android:orientation="vertical">
 
@@ -271,6 +268,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:backgroundTint="#817F0047"
+                    android:onClick="change"
                     android:text="@string/placaS"
                     android:textColor="#FFFFFF" />
             </LinearLayout>

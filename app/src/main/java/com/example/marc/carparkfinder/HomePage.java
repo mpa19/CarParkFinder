@@ -23,4 +23,10 @@ public class HomePage extends AppCompatActivity {
         Intent i = new Intent(this, Reservar.class);
         startActivity(i);
     }
+
+    public void btnP(View v){
+        Intent i = new Intent(this, Profile.class);
+        startActivity(i);
+        finish();
+    }
 }
