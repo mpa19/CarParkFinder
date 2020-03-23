@@ -32,9 +32,7 @@
     <string name="profile">Perfil</string>
     <string name="cerrar"><u>Surt de la sessió</u> </string>
     <string name="blank">Encara no heu emplenat cap informació</string>
-
-
-
+    <string name="inic"><u>Iniciar sessió</u></string>
 
 
 </resources>

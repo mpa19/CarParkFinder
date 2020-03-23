@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Profile"></activity>
+
+        <activity android:name=".LoginApp" />
+        <activity android:name=".Profile" />
         <activity android:name=".Parking" />
         <activity android:name=".Reservar" />
         <!--

@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -15,7 +17,7 @@ public class SplashScreen extends AppCompatActivity {
     }
 
     public void onlick(View v){
-        Intent i = new Intent(this, HomePage.class);
+        Intent i = new Intent(this, LoginApp.class);
         startActivity(i);
         finish();
     }
