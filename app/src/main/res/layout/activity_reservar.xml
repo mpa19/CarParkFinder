@@ -22,6 +22,7 @@
             android:layout_marginLeft="20dp"
             android:layout_weight="4.5"
             android:background="@android:drawable/ic_menu_close_clear_cancel"
+            android:backgroundTint="#070707"
             android:onClick="back"
             android:textAlignment="viewStart" />
 

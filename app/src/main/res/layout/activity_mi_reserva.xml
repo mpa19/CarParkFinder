@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearMap"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailsParking" >
+    tools:context=".MiReserva">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,9 +26,7 @@
                 android:layout_margin="10dp"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="4.5"
-                android:background="?attr/homeAsUpIndicator"
-                android:backgroundTint="#FFFFFF"
-                android:onClick="back"
+                android:background="@drawable/iconapp"
                 android:textAlignment="viewStart" />
 
             <TextView
@@ -40,7 +37,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/averia_libre"
                 android:gravity="center_vertical"
-                android:text="@string/info"
+                android:text="@string/mires"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -230,13 +227,21 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button5"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/button15"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:backgroundTint="#7F0047"
-                    android:onClick="btnR"
-                    android:text="@string/btnR"
+                    android:text="@string/llegar"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/button5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="#F40202"
+                    android:text="@string/cancel"
                     android:textColor="#FFFFFF" />
 
             </LinearLayout>
@@ -281,7 +286,7 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="6dp"
                     android:background="@drawable/reserv"
-                    android:backgroundTint="#808080" />
+                    android:backgroundTint="#000000" />
             </LinearLayout>
 
             <LinearLayout
@@ -303,5 +308,4 @@
         </LinearLayout>
 
     </LinearLayout>
-
 </LinearLayout>

@@ -33,6 +33,13 @@
     <string name="cerrar"><u>Surt de la sessió</u> </string>
     <string name="blank">Encara no heu emplenat cap informació</string>
     <string name="inic"><u>Iniciar sessió</u></string>
+    <string name="title_activity_maps">Map</string>
+    <string name="select">Selecció de plaça</string>
+    <string name="mires">Mi reserva</string>
+    <string name="cancel">Cancelar reserva</string>
+
+
+
 
 
 </resources>
