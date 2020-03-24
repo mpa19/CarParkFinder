@@ -19,8 +19,13 @@ public class Reservar extends AppCompatActivity {
     }
 
     public void change(View v){
+        Intent i = new Intent(this, Parking.class);
+        startActivity(i);
+    }
+    public void reserv(View v){
         Intent i = new Intent(this, MapsActivity.class);
         startActivity(i);
+        finish();
     }
 
 }

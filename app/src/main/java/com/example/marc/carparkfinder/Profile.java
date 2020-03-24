@@ -25,4 +25,10 @@ public class Profile extends AppCompatActivity {
         startActivity(i);
         finish();
     }
+
+    public void miReserva(View v){
+        Intent i = new Intent(this, MiReserva.class);
+        startActivity(i);
+        finish();
+    }
 }

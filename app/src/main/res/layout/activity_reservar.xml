@@ -288,6 +288,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="#7F0047"
+            android:onClick="reserv"
             android:text="@string/btnR"
             android:textColor="#FFFFFF" />
     </LinearLayout>
