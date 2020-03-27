@@ -2,6 +2,8 @@ package com.example.marc.carparkfinder;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,10 +27,16 @@ public class MiReserva extends FragmentActivity implements OnMapReadyCallback {
     TextView titul;
     TextView entrada;
     TextView sortida;
+    TextView hora;
+    TextView placas;
+    TextView tipus;
     TextView placa;
+    TextView ent;
+    TextView sort;
     ImageView vehicle;
     Button com;
     Button cancel;
+
 
     SupportMapFragment mapFragment;
 
@@ -46,12 +54,15 @@ public class MiReserva extends FragmentActivity implements OnMapReadyCallback {
         titul = findViewById(R.id.textView7);
         entrada = findViewById(R.id.textView39);
         sortida = findViewById(R.id.textView40);
+        hora = findViewById(R.id.textView36);
+        placas = findViewById(R.id.textView31);
+        tipus = findViewById(R.id.textView38);
         placa = findViewById(R.id.textView32);
         vehicle = findViewById(R.id.imageView10);
         com = findViewById(R.id.button15);
         cancel = findViewById(R.id.button5);
-
-
+        ent = findViewById(R.id.textView21);
+        sort = findViewById(R.id.textView19);
 
     }
 
@@ -77,15 +88,35 @@ public class MiReserva extends FragmentActivity implements OnMapReadyCallback {
     }
 
     public void clear(View v){
-        titul.setText("No hi ha cap reserva");
-        entrada.setText("");
-        sortida.setText("");
-        placa.setText("");
-        vehicle.setBackground(null);
-        Posi.remove();
-        com.setEnabled(false);
-        cancel.setEnabled(false);
-        com.setVisibility(View.INVISIBLE);
-        cancel.setVisibility(View.INVISIBLE);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MiReserva.this);
+        builder.setTitle(getString(R.string.cancelRe))
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        titul.setText("No hi ha cap reserva");
+                        entrada.setText("");
+                        sortida.setText("");
+                        placa.setText("");
+                        vehicle.setBackground(null);
+                        Posi.remove();
+                        com.setEnabled(false);
+                        cancel.setEnabled(false);
+                        com.setVisibility(View.INVISIBLE);
+                        cancel.setVisibility(View.INVISIBLE);
+                        placas.setText("");
+                        hora.setText("");
+                        tipus.setText("");
+                        ent.setText("");
+                        sort.setText("");
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).show();
+
+
     }
 }

@@ -281,7 +281,8 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="6dp"
                     android:background="@drawable/reserv"
-                    android:backgroundTint="#808080" />
+                    android:backgroundTint="#808080"
+                    android:onClick="miReserva" />
             </LinearLayout>
 
             <LinearLayout

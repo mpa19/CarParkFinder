@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".MiReserva"></activity>
+        <activity android:name=".MiReserva" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -30,8 +30,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
+            android:name=".MapsActivity" />
         <activity android:name=".LoginApp" />
         <activity android:name=".Profile" />
         <activity android:name=".Parking" />
@@ -42,8 +41,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".DetailsParking"
-            android:label="" />
+            android:name=".DetailsParking" />
         <activity android:name=".HomePage" />
         <activity android:name=".SplashScreen">
             <intent-filter>

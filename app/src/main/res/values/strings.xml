@@ -36,8 +36,11 @@
     <string name="title_activity_maps">Map</string>
     <string name="select">Selecció de plaça</string>
     <string name="mires">Mi reserva</string>
-    <string name="cancel">Cancelar reserva</string>
-
+    <string name="cancel">Cancel·lar reserva</string>
+    <string name="cerrarS">Està segur de voler tanca la sessió?</string>
+    <string name="cancelRe">Estàs segur de voler cancel·lar la reserva?</string>
+    <string name="settings">Configuració</string>
+    <string name="permission_denied_explanation">S’ha denegat el permís, però es necessita per als principals funcionalitat.</string>
 
 
 

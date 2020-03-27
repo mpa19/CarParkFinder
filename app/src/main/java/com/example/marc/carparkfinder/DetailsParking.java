@@ -59,5 +59,12 @@ public class DetailsParking extends FragmentActivity implements OnMapReadyCallba
     public void btnP(View v){
         Intent i = new Intent(this, Profile.class);
         startActivity(i);
+        finish();
+    }
+
+    public void miReserva(View v){
+        Intent i = new Intent(this, MiReserva.class);
+        startActivity(i);
+        finish();
     }
 }

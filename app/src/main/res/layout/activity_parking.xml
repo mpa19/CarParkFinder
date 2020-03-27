@@ -23,6 +23,7 @@
             android:layout_weight="4.3"
             android:background="@android:drawable/ic_menu_close_clear_cancel"
             android:backgroundTint="#050505"
+            android:onClick="back"
             android:textAlignment="viewStart" />
 
         <TextView
