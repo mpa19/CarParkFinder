@@ -51,11 +51,38 @@
 
     </LinearLayout>
 
-    <fragment
-        android:id="@+id/map3"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        tools:context=".MapsActivity" />
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#686767"
+            android:orientation="horizontal"></LinearLayout>
+
+        <GridView
+            android:id="@+id/gv1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_columnWeight="1"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            android:horizontalSpacing="4dp"
+            android:numColumns="2"
+            android:verticalSpacing="4dp">
+
+        </GridView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#686767"
+            android:orientation="horizontal"></LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>

@@ -1,48 +1,162 @@
 package com.example.marc.carparkfinder;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Parking extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+public class Parking extends AppCompatActivity {
+    GripAdapter adapter;
+    GridView gv;
+
+    String[] values = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32",
+                        "33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62",
+                        "63","64","65","66","67","68","69","70","71","72","73","74"};
+
+    String[] valuesM = {"63","64","65","66","67","68","69","70","71","72","73","74"};
+
+    String[] carAval = {"1","2","3","4","5","6","7","8","9","10","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32",
+            "33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","52","53","54","55","56","57","58","59","60","61","62"};
+
+    String[] motoAv = {};
+
+    List<String> lastSource1 =  new ArrayList<>();
+    List<String> lastSourceM =  new ArrayList<>();
+    List<String> lastSource2 =  new ArrayList<>();
+    List<String> lastSource3 =  new ArrayList<>();
+    String val;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking);
+        Bundle extras = getIntent().getExtras();
+        val = extras.getString("Tipo");
 
-        /*int w = 1000, h = 1000;
+        getUpList();
+        gv = findViewById(R.id.gv1);
+        adapter = new GripAdapter(lastSource1, this);
+        gv.setAdapter(adapter);
+        gv.setOnItemClickListener(adapter);
 
-        Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
-        Bitmap bmp = Bitmap.createBitmap(w, h, conf); // this creates a MUTABLE bitmap
-        Canvas canvas = new Canvas(bmp);
-
-        Paint a = new Paint();
-        canvas.drawRect(10, 70, canvas.getWidth()-10,20,a);*/
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map3);
-        mapFragment.getMapAsync(this);
+        /*gvM = findViewById(R.id.gv2);
+        adapterM = new GripAdapterM(lastSourceM, this);
+        gvM.setAdapter(adapterM);
+        gvM.setOnItemClickListener(adapterM);*/
 
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+    private void getUpList() {
+        for(String item:values)
+            lastSource1.add(item);
+
+        for(String item:valuesM)
+            lastSourceM.add(item);
+
+        for(String item:carAval)
+            lastSource2.add(item);
+
+        for(String item:motoAv)
+            lastSource3.add(item);
     }
 
     public void back(View v){
         finish();
     }
+
+    class GripAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
+        Context context;
+        List<String> lastSource;
+        private int selected = -1;
+        Button button;
+
+
+        public GripAdapter(List<String> values, Context context){
+            this.context = context;
+            this.lastSource = values;
+        }
+
+        @Override
+        public int getCount() {
+            return lastSource.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return lastSource.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            if(view == null) {
+                view = inflater.inflate(R.layout.seat, null);
+            }
+            if(lastSourceM.contains(String.valueOf(i+1)))  view = inflater.inflate(R.layout.seatm, null);
+            else view = inflater.inflate(R.layout.seat, null);
+
+            final TextView gridText = view.findViewById(R.id.tvNumero);
+            gridText.setText(lastSource.get(i));
+             if(val.equals("Car")) {
+                 if (lastSource2.contains(String.valueOf(i+1))) {
+                     view.setBackgroundColor(Color.GREEN);
+                     if (selected == i) {
+                         view.setBackgroundColor(Color.YELLOW);
+                     }
+                 } else view.setBackgroundColor(Color.RED);
+
+                 if (lastSourceM.contains(String.valueOf(i+1))) view.setBackgroundColor(Color.GRAY);
+             } else {
+                 if (lastSource3.contains(String.valueOf(i+1))) {
+                     view.setBackgroundColor(Color.GREEN);
+                     if (selected == i) {
+                         view.setBackgroundColor(Color.YELLOW);
+                     }
+                 }else view.setBackgroundColor(Color.RED);
+                 if (!lastSourceM.contains(String.valueOf(i+1))) view.setBackgroundColor(Color.GRAY);
+             }
+            return view;
+        }
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view,
+                                int position, long id) {
+
+            if(val.equals("Car")) {
+                if(!lastSourceM.contains(String.valueOf(position+1)) && lastSource2.contains(String.valueOf(position+1))) {
+                    selected = position;
+                    adapter.notifyDataSetChanged();
+                }
+            } else {
+                if(lastSourceM.contains(String.valueOf(position+1)) && lastSource3.contains(String.valueOf(position+1))) {
+                    selected = position;
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
 }
+
+
+
