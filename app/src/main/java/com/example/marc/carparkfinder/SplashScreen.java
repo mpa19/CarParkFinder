@@ -10,12 +10,12 @@ import android.os.Bundle;
 
 public class SplashScreen extends AppCompatActivity {
 
-
+    AsynTaskRunner runner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        AsynTaskRunner runner = new AsynTaskRunner();
+        runner = new AsynTaskRunner();
         runner.execute();
     }
 
@@ -39,5 +39,11 @@ public class SplashScreen extends AppCompatActivity {
             startActivity(i);
             finish();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        runner.cancel(true);
     }
 }

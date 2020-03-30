@@ -215,7 +215,8 @@
                 android:id="@+id/lyBtn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1.55"
+                android:layout_weight="1.5"
+                android:gravity="bottom"
                 android:orientation="horizontal">
 
                 <Button
