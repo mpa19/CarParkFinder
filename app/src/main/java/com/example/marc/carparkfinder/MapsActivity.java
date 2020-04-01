@@ -6,14 +6,18 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.getkeepsafe.relinker.BuildConfig;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -48,7 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        //new FetchURL(MapsActivity.this).execute(getUrl(origin, recto), "driving");
+        //
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -62,11 +66,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         recto = new LatLng(41.615451, 0.618851);
         // Start downloading json data from Google Directions API
-        origin = new LatLng(41.62, 0.62);
+
 
         mMap.addMarker(new MarkerOptions().position(recto));
-        mMap.addMarker(new MarkerOptions().position(origin));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 17.0f));
+        //mMap.addMarker(new MarkerOptions().position(origin));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 17.0f));
         doMapStuf();
 
 
@@ -81,11 +85,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-
-    public void doMapStuf(){
-        if(mMap == null) return;
-        if(aproved){
+    public void doMapStuf() {
+        if (mMap == null) return;
+        if (aproved) {
             mMap.setMyLocationEnabled(true);
+            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            double longitude = location.getLongitude();
+            double latitude = location.getLatitude();
+            origin = new LatLng(latitude, longitude);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 17.0f));
+            new FetchURL(MapsActivity.this).execute(getUrl(origin, recto), "driving");
         }
     }
 
@@ -150,6 +163,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     /*aproved = true;
                     doMapStuf();*/
+
+                    //new FetchURL(MapsActivity.this).execute(getUrl(origin, recto), "driving");
                 } else {
                     boolean showRationale = shouldShowRequestPermissionRationale(permission);
                         if (!showRationale) {
