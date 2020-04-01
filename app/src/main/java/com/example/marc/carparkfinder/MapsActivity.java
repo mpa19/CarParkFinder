@@ -1,25 +1,19 @@
 package com.example.marc.carparkfinder;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.location.Location;
 import android.net.Uri;
-import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.getkeepsafe.relinker.BuildConfig;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -49,21 +43,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Boolean aproved = false;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        Button btn = findViewById(R.id.button13);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new FetchURL(MapsActivity.this).execute(getUrl(origin, recto), "driving");
-            }
+        //new FetchURL(MapsActivity.this).execute(getUrl(origin, recto), "driving");
 
-
-        });
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -73,8 +59,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Getting URL to the Google Directions API
 
         recto = new LatLng(41.615451, 0.618851);
         // Start downloading json data from Google Directions API
@@ -153,6 +137,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         );
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -166,19 +151,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     /*aproved = true;
                     doMapStuf();*/
                 } else {
-                    // Permission denied.
-
-                    // Notify the user via a SnackBar that they have rejected a core permission for the
-                    // app, which makes the Activity useless. In a real app, core permissions would
-                    // typically be best requested during a welcome-screen flow.
-
-                    // Additionally, it is important to remember that a permission might have been
-                    // rejected without asking the user for permission (device policy or "Never ask
-                    // again" prompts). Therefore, a user interface affordance is typically implemented
-                    // when permissions are denied. Otherwise, your app could appear unresponsive to
-                    // touches or interactions which have required permissions.
-
-
                     boolean showRationale = shouldShowRequestPermissionRationale(permission);
                         if (!showRationale) {
                                 checked = true;
@@ -222,6 +194,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             aproved = true;
             doMapStuf();
         }
+    }
+
+    public void exit(View v){
+        finish();
     }
 
 }

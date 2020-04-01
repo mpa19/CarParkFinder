@@ -119,10 +119,21 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/textView35"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F30202"
+            android:gravity="center"
+            android:text="@string/tancat"
+            android:textColor="#F6F6F6"
+            android:textSize="18sp"
+            android:textStyle="bold|italic"
+            android:visibility="invisible" />
+
+        <TextView
             android:id="@+id/textView18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:text="@string/horaEn"
             android:textColor="#7F0047"
             android:textSize="22sp"

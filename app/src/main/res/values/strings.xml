@@ -41,6 +41,10 @@
     <string name="cancelRe">Estàs segur de voler cancel·lar la reserva?</string>
     <string name="settings">Configuració</string>
     <string name="permission_denied_explanation">S’ha denegat el permís, però es necessita per als principals funcionalitat.</string>
+    <string name="tancat">El parking es troba tancat</string>
+    <string name="ruta">Ruta fins aparcament</string>
+
+
 
 
 
