@@ -1,5 +1,6 @@
 package com.example.marc.carparkfinder;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -20,6 +21,9 @@ public class Reservar extends AppCompatActivity {
     Button btnC;
     RadioButton rbM;
     TextView tv;
+    TextView tvCelda;
+    Intent i;
+    boolean changed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,7 @@ public class Reservar extends AppCompatActivity {
         rbM = findViewById(R.id.radioButton5);
         btnC = findViewById(R.id.button11);
         tv = findViewById(R.id.textView35);
+        tvCelda = findViewById(R.id.textView32);
 
         Calendar calendar1 = Calendar.getInstance();
 
@@ -64,15 +69,26 @@ public class Reservar extends AppCompatActivity {
     }
 
     public void change(View v){
-        Intent i = new Intent(this, Parking.class);
+        changed = true;
+        i = new Intent(this, Parking.class);
         if(rbM.isChecked()) i.putExtra("Tipo", "Moto");
         else i.putExtra("Tipo", "Car");
-        startActivity(i);
+        startActivityForResult(i,1);
     }
     public void reserv(View v){
-        Intent i = new Intent(this, MapsActivity.class);
-        startActivity(i);
+        Intent a = new Intent(this, MapsActivity.class);
+        startActivity(a);
         finish();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            if(resultCode == RESULT_OK) {
+                int ex = data.getIntExtra("celda", 0);
+                tvCelda.setText("Nª: "+ex);
+            }
+        }
+    }
 }

@@ -3,6 +3,7 @@ package com.example.marc.carparkfinder;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,6 +23,8 @@ import java.util.List;
 public class Parking extends AppCompatActivity {
     GripAdapter adapter;
     GridView gv;
+    private int selected = -1;
+
 
     String[] values = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32",
                         "33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62",
@@ -52,12 +55,6 @@ public class Parking extends AppCompatActivity {
         adapter = new GripAdapter(lastSource1, this);
         gv.setAdapter(adapter);
         gv.setOnItemClickListener(adapter);
-
-        /*gvM = findViewById(R.id.gv2);
-        adapterM = new GripAdapterM(lastSourceM, this);
-        gvM.setAdapter(adapterM);
-        gvM.setOnItemClickListener(adapterM);*/
-
     }
 
     private void getUpList() {
@@ -75,13 +72,21 @@ public class Parking extends AppCompatActivity {
     }
 
     public void back(View v){
+        Intent result = new Intent();
+        setResult(RESULT_CANCELED, result);
+        finish();
+    }
+
+    public void correct(View V){
+        Intent result = new Intent();
+        result.putExtra("celda", selected+1);
+        setResult(RESULT_OK, result);
         finish();
     }
 
     class GripAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
         Context context;
         List<String> lastSource;
-        private int selected = -1;
         Button button;
 
 
