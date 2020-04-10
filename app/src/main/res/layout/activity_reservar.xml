@@ -162,8 +162,8 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="-8dp"
                 android:layout_weight="1"
-                android:ems="10"
-                android:inputType="time" />
+                android:editable="false"
+                android:gravity="center" />
 
         </LinearLayout>
 
@@ -190,7 +190,9 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="-8dp"
                 android:layout_weight="1"
+                android:editable="false"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="time" />
 
         </LinearLayout>

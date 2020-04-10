@@ -2,21 +2,28 @@ package com.example.marc.carparkfinder;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
-public class Reservar extends AppCompatActivity {
+public class Reservar extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
     Button btnR;
     Button btnC;
     RadioButton rbM;
@@ -24,6 +31,8 @@ public class Reservar extends AppCompatActivity {
     TextView tvCelda;
     Intent i;
     boolean changed = false;
+    EditText textView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +45,29 @@ public class Reservar extends AppCompatActivity {
         btnC = findViewById(R.id.button11);
         tv = findViewById(R.id.textView35);
         tvCelda = findViewById(R.id.textView32);
+        textView =  findViewById(R.id.editText);
 
         Calendar calendar1 = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
-        if (calendar1.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || calendar1.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
-            btnR.setEnabled(false);
-            btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#8A7F0047")));
-            btnC.setEnabled(false);
-            btnC.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#8A7F0047")));
-            tv.setVisibility(View.VISIBLE);
+        Date date1 = null;
+        Date date2 = null;
+        Date date3 = null;
+        Date date4 = null;
+        try {
+            date1 = sdf.parse(sdf.format(calendar1.getTime()));
+            date2 = sdf.parse("06:50");
+            date4 = sdf.parse("22:50");
+            date3 = sdf.parse("14:50");
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (calendar1.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || date1.before(date2) || date1.after(date4)) {
+            desactivar();
+        } else if(calendar1.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY && date1.after(date3)) {
+            desactivar();
         } else {
             rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
@@ -62,6 +85,27 @@ public class Reservar extends AppCompatActivity {
                 }
             });
         }
+
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getSupportFragmentManager(), "time picker");
+            }
+        });
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        textView.setText(hourOfDay + ":" + minute);
+    }
+
+    public void desactivar(){
+        btnR.setEnabled(false);
+        btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#8A7F0047")));
+        btnC.setEnabled(false);
+        btnC.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#8A7F0047")));
+        tv.setVisibility(View.VISIBLE);
     }
 
     public void back(View v){
