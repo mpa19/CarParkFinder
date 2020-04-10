@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +34,15 @@ public class Reservar extends AppCompatActivity implements TimePickerDialog.OnTi
     boolean changed = false;
     EditText textView;
     EditText textView2;
+    int timer = 0;
+    Calendar calendar1;
+    SimpleDateFormat sdf;
+    Date date2 = null;
+    Date date3 = null;
+    Date date4 = null;
+
+    boolean vehicle = true;
+    boolean hora = true;
 
 
     @Override
@@ -49,22 +59,31 @@ public class Reservar extends AppCompatActivity implements TimePickerDialog.OnTi
         textView =  findViewById(R.id.editText);
         textView2 =  findViewById(R.id.editText2);
 
+        textView.setShowSoftInputOnFocus(false);
+        textView.setInputType(InputType.TYPE_NULL);
+        textView.setFocusable(false);
 
-        Calendar calendar1 = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        textView2.setShowSoftInputOnFocus(false);
+        textView2.setInputType(InputType.TYPE_NULL);
+        textView2.setFocusable(false);
+
+
+        calendar1 = Calendar.getInstance();
+        sdf = new SimpleDateFormat("HH:mm");
 
         Calendar calendar2 = Calendar.getInstance();
         calendar2.add(Calendar.MINUTE, 30);
 
         Date date1 = null;
-        Date date2 = null;
-        Date date3 = null;
-        Date date4 = null;
+
+
+
         try {
             date1 = sdf.parse(sdf.format(calendar1.getTime()));
-            date2 = sdf.parse("06:50");
-            date4 = sdf.parse("22:50");
-            date3 = sdf.parse("14:50");
+            date2 = sdf.parse("07:00");
+            date4 = sdf.parse("23:00");
+            date3 = sdf.parse("15:00");
+
             textView.setText(sdf.format(calendar1.getTime()));
             textView2.setText(sdf.format(calendar2.getTime()));
 
@@ -81,14 +100,18 @@ public class Reservar extends AppCompatActivity implements TimePickerDialog.OnTi
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
                     if (checkedId == R.id.radioButton5) {
+                        vehicle = false;
                         btnR.setEnabled(false);
                         btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#8A7F0047")));
 
                         Toast.makeText(Reservar.this, "No hi ha places disponibles", Toast.LENGTH_SHORT).show();
 
                     } else {
-                        btnR.setEnabled(true);
-                        btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#7F0047")));
+                        vehicle = true;
+                        if(hora){
+                            btnR.setEnabled(true);
+                            btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#7F0047")));
+                        }
                     }
                 }
             });
@@ -97,6 +120,16 @@ public class Reservar extends AppCompatActivity implements TimePickerDialog.OnTi
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                timer = 1;
+                DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getSupportFragmentManager(), "time picker");
+            }
+        });
+
+        textView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timer = 2;
                 DialogFragment timePicker = new TimePickerFragment();
                 timePicker.show(getSupportFragmentManager(), "time picker");
             }
@@ -105,7 +138,55 @@ public class Reservar extends AppCompatActivity implements TimePickerDialog.OnTi
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        textView.setText(hourOfDay + ":" + minute);
+        if(timer == 1) {
+            try {
+                if(validation(1, hourOfDay, minute)) {
+                    textView.setText(hourOfDay + ":" + minute);
+                    Date date6 = sdf.parse(textView2.getText().toString());
+                    Date date7 = sdf.parse(textView.getText().toString());
+
+                    if(date7.after(date6)) {
+                        btnR.setEnabled(false);
+                        btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#8A7F0047")));
+                        hora = false;
+                    }
+                }
+                else {
+                    Toast.makeText(this, "Hora d'entrada errònia", Toast.LENGTH_SHORT).show();
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            try {
+                if(validation(2, hourOfDay, minute)) {
+                    textView2.setText(hourOfDay + ":" + minute);
+                    hora = true;
+                    if(vehicle){
+                        btnR.setEnabled(true);
+                        btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#7F0047")));
+                    }
+                }
+                else {
+                    Toast.makeText(this, "Hora de sortida errònia", Toast.LENGTH_SHORT).show();
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    private boolean validation(int type, int hourOfDay, int minute) throws ParseException {
+        Date date5 = sdf.parse(hourOfDay+":"+minute);
+        if(type == 1){
+            if(date5.before(date2) || ((calendar1.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) && date5.after(date3)) || date5.after(date4)) return false;
+        } else {
+            Date date6 = sdf.parse(textView.getText().toString());
+            if(date5.before(date2) || ((calendar1.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) && date5.after(date3)) || date5.after(date4) || date5.before(date6)) return false;
+        }
+        return true;
     }
 
     public void desactivar(){
