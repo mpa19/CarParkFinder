@@ -64,13 +64,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        recto = new LatLng(41.615451, 0.618851);
-        // Start downloading json data from Google Directions API
-
-
+        recto = new LatLng(41.615370, 0.619103);
         mMap.addMarker(new MarkerOptions().position(recto));
-        //mMap.addMarker(new MarkerOptions().position(origin));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 17.0f));
+
         doMapStuf();
 
 
@@ -93,7 +89,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
-            Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             double longitude = location.getLongitude();
             double latitude = location.getLatitude();
             origin = new LatLng(latitude, longitude);

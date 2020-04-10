@@ -82,8 +82,8 @@ public class MiReserva extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        origin = new LatLng(41.62, 0.62);
-        Posi = mMap.addMarker(new MarkerOptions().position(origin).title("Plaça 5"));
+        origin = new LatLng(41.615370, 0.619103);
+        Posi = mMap.addMarker(new MarkerOptions().position(origin).title("Plaça Nº: 5"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 17.0f));
     }
 

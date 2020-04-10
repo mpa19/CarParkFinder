@@ -76,8 +76,6 @@ public class Reservar extends AppCompatActivity implements TimePickerDialog.OnTi
 
         Date date1 = null;
 
-
-
         try {
             date1 = sdf.parse(sdf.format(calendar1.getTime()));
             date2 = sdf.parse("07:00");
