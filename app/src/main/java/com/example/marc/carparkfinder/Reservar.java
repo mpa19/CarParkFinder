@@ -32,6 +32,7 @@ public class Reservar extends AppCompatActivity implements TimePickerDialog.OnTi
     Intent i;
     boolean changed = false;
     EditText textView;
+    EditText textView2;
 
 
     @Override
@@ -46,9 +47,14 @@ public class Reservar extends AppCompatActivity implements TimePickerDialog.OnTi
         tv = findViewById(R.id.textView35);
         tvCelda = findViewById(R.id.textView32);
         textView =  findViewById(R.id.editText);
+        textView2 =  findViewById(R.id.editText2);
+
 
         Calendar calendar1 = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.add(Calendar.MINUTE, 30);
 
         Date date1 = null;
         Date date2 = null;
@@ -59,6 +65,8 @@ public class Reservar extends AppCompatActivity implements TimePickerDialog.OnTi
             date2 = sdf.parse("06:50");
             date4 = sdf.parse("22:50");
             date3 = sdf.parse("14:50");
+            textView.setText(sdf.format(calendar1.getTime()));
+            textView2.setText(sdf.format(calendar2.getTime()));
 
         } catch (ParseException e) {
             e.printStackTrace();
