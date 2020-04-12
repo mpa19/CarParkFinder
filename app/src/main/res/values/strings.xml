@@ -43,6 +43,8 @@
     <string name="permission_denied_explanation">S’ha denegat el permís, però es necessita per als principals funcionalitat.</string>
     <string name="tancat">El parking es troba tancat</string>
     <string name="ruta">Ruta fins aparcament</string>
+    <string name="GPS">  El GPS es troba deshabilitat, es necessari activar-lo per a crear la ruta!</string>
+
 
 
 
