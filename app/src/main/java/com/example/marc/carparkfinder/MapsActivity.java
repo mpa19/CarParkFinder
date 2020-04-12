@@ -94,7 +94,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             double latitude = location.getLatitude();
             origin = new LatLng(latitude, longitude);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 17.0f));
-            new FetchURL(MapsActivity.this).execute(getUrl(origin, recto), "driving");
+            new FetchURL(MapsActivity.this).execute(getUrl(origin, recto), "walking");
         }
     }
 
