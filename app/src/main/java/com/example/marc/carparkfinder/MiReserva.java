@@ -78,6 +78,11 @@ public class MiReserva extends FragmentActivity implements OnMapReadyCallback {
         finish();
     }
 
+    public void btnA(View v){
+        Intent i = new Intent(this, MapsActivity.class);
+        startActivity(i);
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;

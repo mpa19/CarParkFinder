@@ -6,7 +6,9 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -29,6 +31,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.io.File;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, TaskLoadedCallback {
@@ -57,7 +61,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
     }
 
     @Override
@@ -66,6 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         recto = new LatLng(41.615370, 0.619103);
         mMap.addMarker(new MarkerOptions().position(recto));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(recto, 17.0f));
 
         doMapStuf();
 
@@ -89,13 +93,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
-            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            double longitude = location.getLongitude();
-            double latitude = location.getLatitude();
-            origin = new LatLng(latitude, longitude);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 17.0f));
-            new FetchURL(MapsActivity.this).execute(getUrl(origin, recto), "walking");
+            if ( !lm.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+                buildAlertMessageNoGps();
+            } else {
+                Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                if (location != null) {
+                    double longitude = location.getLongitude();
+                    double latitude = location.getLatitude();
+                    origin = new LatLng(latitude, longitude);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 17.0f));
+                    new FetchURL(MapsActivity.this).execute(getUrl(origin, recto), "driving");
+                }
+            }
         }
+    }
+
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 
     //////////////////////////////////////

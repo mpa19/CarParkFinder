@@ -225,6 +225,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:backgroundTint="#7F0047"
+                    android:onClick="btnA"
                     android:text="@string/llegar"
                     android:textColor="#FFFFFF" />
 
