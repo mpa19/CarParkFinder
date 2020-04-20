@@ -12,16 +12,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
-import com.getkeepsafe.relinker.BuildConfig;
+import com.example.marc.carparkfinder.route.FetchURL;
+import com.example.marc.carparkfinder.timer.TaskLoadedCallback;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -32,10 +32,8 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.File;
 
-
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, TaskLoadedCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, TaskLoadedCallback, LocationListener {
 
     int PERMISSION_ID = 44;
     private GoogleMap mMap;
@@ -45,7 +43,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     Polyline currentPolyline;
 
-    Boolean dontAskAgain = false;
+    Boolean dontAskAgain = true;
 
     Boolean checked = false;
     Boolean aproved = false;
@@ -72,16 +70,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(recto, 17.0f));
 
         doMapStuf();
-
-
-
-        /*mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
-            @Override
-            public void onMyLocationChange(Location arg0) {
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(arg0.getLatitude(), arg0.getLongitude()), 17.0f));
-                //mMap.addMarker(new MarkerOptions().position(new LatLng(arg0.getLatitude(), arg0.getLongitude())).title("It's Me!"));
-            }
-        });*/
     }
 
 
@@ -96,14 +84,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if ( !lm.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
                 buildAlertMessageNoGps();
             } else {
-                Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                if (location != null) {
-                    double longitude = location.getLongitude();
-                    double latitude = location.getLatitude();
-                    origin = new LatLng(latitude, longitude);
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 17.0f));
-                    new FetchURL(MapsActivity.this).execute(getUrl(origin, recto), "driving");
-                }
+
+                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
             }
         }
     }
@@ -232,4 +215,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         finish();
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        if(dontAskAgain) {
+            double longitude = location.getLongitude();
+            double latitude = location.getLatitude();
+            origin = new LatLng(latitude, longitude);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 17.0f));
+            new FetchURL(MapsActivity.this).execute(getUrl(origin, recto), "driving");
+            dontAskAgain = false;
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
 }
