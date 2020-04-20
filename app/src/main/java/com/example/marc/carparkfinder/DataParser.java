@@ -1,4 +1,4 @@
-package com.example.marc.carparkfinder.route;
+package com.example.marc.carparkfinder;
 
 import com.google.android.gms.maps.model.LatLng;
 
