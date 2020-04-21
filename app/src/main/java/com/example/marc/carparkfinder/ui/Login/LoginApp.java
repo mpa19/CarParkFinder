@@ -1,10 +1,13 @@
-package com.example.marc.carparkfinder;
+package com.example.marc.carparkfinder.ui.Login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.marc.carparkfinder.ManageMain;
+import com.example.marc.carparkfinder.R;
 
 public class LoginApp extends AppCompatActivity {
 

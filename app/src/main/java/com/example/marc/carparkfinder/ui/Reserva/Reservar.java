@@ -1,4 +1,4 @@
-package com.example.marc.carparkfinder;
+package com.example.marc.carparkfinder.ui.Reserva;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +18,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.example.marc.carparkfinder.ui.Reserva.SelectParking.Parking;
+import com.example.marc.carparkfinder.R;
+import com.example.marc.carparkfinder.ui.Reserva.TimerHelper.TimePickerFragment;
+import com.example.marc.carparkfinder.ui.Route.MapsActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -34,19 +34,19 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".ui.Route.MapsActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".LoginApp"
+            android:name=".ui.Login.LoginApp"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".Parking"
+            android:name=".ui.Reserva.SelectParking.Parking"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".Reservar"
+            android:name=".ui.Reserva.Reservar"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
@@ -55,17 +55,13 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".DetailsParking"
+            android:name=".ui.Detalles.DetailsParking"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"
             android:label="@string/info"/>
+
         <activity
-            android:name=".HomePage"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".SplashScreen"
+            android:name=".ui.Intro.SplashScreen"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>

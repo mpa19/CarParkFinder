@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Parking">
+    tools:context=".ui.Reserva.SelectParking.Parking">
 
     <LinearLayout
         android:layout_width="match_parent"

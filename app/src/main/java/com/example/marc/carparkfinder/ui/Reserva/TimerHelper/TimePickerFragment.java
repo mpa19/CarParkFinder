@@ -1,4 +1,4 @@
-package com.example.marc.carparkfinder;
+package com.example.marc.carparkfinder.ui.Reserva.TimerHelper;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;

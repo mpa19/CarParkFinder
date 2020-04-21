@@ -1,4 +1,4 @@
-package com.example.marc.carparkfinder;
+package com.example.marc.carparkfinder.ui.Reserva.SelectParking;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.marc.carparkfinder.R;
 
 import java.util.ArrayList;
 import java.util.List;

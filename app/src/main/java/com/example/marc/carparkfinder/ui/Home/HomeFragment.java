@@ -1,4 +1,4 @@
-package com.example.marc.carparkfinder.ui.home;
+package com.example.marc.carparkfinder.ui.Home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.marc.carparkfinder.DetailsParking;
+import com.example.marc.carparkfinder.ui.Detalles.DetailsParking;
 import com.example.marc.carparkfinder.R;
-import com.example.marc.carparkfinder.Reservar;
+import com.example.marc.carparkfinder.ui.Reserva.Reservar;
 
 
 public class HomeFragment extends Fragment {

@@ -1,4 +1,4 @@
-package com.example.marc.carparkfinder;
+package com.example.marc.carparkfinder.ui.Intro;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
+import com.example.marc.carparkfinder.ui.Login.LoginApp;
+import com.example.marc.carparkfinder.R;
 
 
 public class SplashScreen extends AppCompatActivity {
