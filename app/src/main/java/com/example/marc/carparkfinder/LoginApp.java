@@ -15,7 +15,7 @@ public class LoginApp extends AppCompatActivity {
     }
 
     public void signin(View v){
-        Intent i = new Intent(this, HomePage.class);
+        Intent i = new Intent(this, ManageMain.class);
         startActivity(i);
         finish();
     }

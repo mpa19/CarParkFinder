@@ -1,6 +1,7 @@
 package com.example.marc.carparkfinder;
 
-import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +14,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class DetailsParking extends FragmentActivity implements OnMapReadyCallback {
+public class DetailsParking extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
@@ -21,22 +22,25 @@ public class DetailsParking extends FragmentActivity implements OnMapReadyCallba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_parking);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map2);
         mapFragment.getMapAsync(this);
+
+        Toolbar tb = findViewById(R.id.toolbar3);
+        setSupportActionBar(tb);
+
+        // Añadir flecha atras en toolbar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -50,21 +54,5 @@ public class DetailsParking extends FragmentActivity implements OnMapReadyCallba
     public void btnR(View v){
         Intent i = new Intent(this, Reservar.class);
         startActivity(i);
-    }
-
-    public void back(View v){
-        finish();
-    }
-
-    public void btnP(View v){
-        Intent i = new Intent(this, Profile.class);
-        startActivity(i);
-        finish();
-    }
-
-    public void miReserva(View v){
-        Intent i = new Intent(this, MiReserva.class);
-        startActivity(i);
-        finish();
     }
 }

@@ -7,42 +7,12 @@
     android:backgroundTint="#7F0047"
     tools:context=".HomePage">
 
+
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="5.4"
-            android:background="#7F0047"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="4.5"
-                android:background="@drawable/iconapp"
-                android:textAlignment="viewStart" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="11dp"
-                android:layout_weight="1"
-                android:fontFamily="serif"
-                android:gravity="center_vertical"
-                android:text="@string/app_name"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:textStyle="bold|italic" />
-
-        </LinearLayout>
 
         <ScrollView
             android:layout_width="wrap_content"
@@ -147,7 +117,7 @@
                         android:orientation="horizontal">
 
                         <Button
-                            android:id="@+id/button3"
+                            android:id="@+id/btnReservar"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -159,7 +129,7 @@
                             android:textStyle="bold" />
 
                         <Button
-                            android:id="@+id/button4"
+                            android:id="@+id/btnMas"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -516,64 +486,6 @@
             </LinearLayout>
         </ScrollView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="5.5"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/imageButton"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="6dp"
-                    android:background="@drawable/home"
-                    android:backgroundTint="#070707" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/imageButton4"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="6dp"
-                    android:background="@drawable/reserv"
-                    android:backgroundTint="#808080"
-                    android:onClick="miReserva" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/imageButton5"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:background="@drawable/profile"
-                    android:backgroundTint="#808080"
-                    android:onClick="btnP" />
-            </LinearLayout>
-
-        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

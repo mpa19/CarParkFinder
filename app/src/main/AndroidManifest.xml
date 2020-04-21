@@ -10,21 +10,17 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar"
-        android:screenOrientation="portrait">
-
-
-
-        <activity android:name=".MiReserva"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+        android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".ManageMain"
+            android:label="@string/title_activity_manage_main"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -40,20 +36,17 @@
         <activity
             android:name=".MapsActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
-
-
-
-        <activity android:name=".LoginApp"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".LoginApp"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".Profile"
+        <activity
+            android:name=".Parking"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".Parking"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".Reservar"
+        <activity
+            android:name=".Reservar"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
@@ -64,11 +57,15 @@
         <activity
             android:name=".DetailsParking"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
-        <activity android:name=".HomePage"
+            tools:ignore="LockedOrientationActivity"
+            android:label="@string/info"/>
+        <activity
+            android:name=".HomePage"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
-        <activity android:name=".SplashScreen"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".SplashScreen"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>

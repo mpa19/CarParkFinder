@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
 
 public class HomePage extends AppCompatActivity {
 
@@ -12,6 +15,7 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
     }
 
     public void btnV(View v){
@@ -24,15 +28,4 @@ public class HomePage extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void btnP(View v){
-        Intent i = new Intent(this, Profile.class);
-        startActivity(i);
-        finish();
-    }
-
-    public void miReserva(View v){
-        Intent i = new Intent(this, MiReserva.class);
-        startActivity(i);
-        finish();
-    }
 }
