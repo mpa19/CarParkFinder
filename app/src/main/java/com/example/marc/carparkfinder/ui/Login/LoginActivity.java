@@ -6,10 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.marc.carparkfinder.ManageMain;
+import com.example.marc.carparkfinder.ManageMainActivity;
 import com.example.marc.carparkfinder.R;
 
-public class LoginApp extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +18,7 @@ public class LoginApp extends AppCompatActivity {
     }
 
     public void signin(View v){
-        Intent i = new Intent(this, ManageMain.class);
+        Intent i = new Intent(this, ManageMainActivity.class);
         startActivity(i);
         finish();
     }

@@ -5,7 +5,7 @@
     android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Login.LoginApp">
+    tools:context=".ui.Login.LoginActivity">
 
 
     <LinearLayout
@@ -38,7 +38,6 @@
             android:ems="10"
             android:hint="E-mail"
             android:inputType="textEmailAddress"
-            android:textAlignment="viewStart"
             android:textColor="#7F0047" />
 
         <EditText

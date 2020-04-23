@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.marc.carparkfinder.ui.Login.LoginApp;
+import com.example.marc.carparkfinder.ui.Login.LoginActivity;
 import com.example.marc.carparkfinder.R;
 
 public class ProfileFragment extends Fragment {
@@ -47,7 +47,7 @@ public class ProfileFragment extends Fragment {
                 .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent a = new Intent(getContext(), LoginApp.class);
+                        Intent a = new Intent(getContext(), LoginActivity.class);
                         startActivity(a);
                         getActivity().finish();
                     }

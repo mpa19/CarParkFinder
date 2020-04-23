@@ -46,5 +46,8 @@
     <string name="GPS">  El GPS es troba deshabilitat, es necessari activar-lo per a crear la ruta!</string>
     <string name="title_activity_manage_main">ManageMain</string>
     <string name="title_home">Inici</string>
+    <string name="reserva">Reserva</string>
+    <string name="sel">Selecciona una plaça disponible</string>
+    <string name="fail">Plaça seleccionada no disponible</string>
 
 </resources>

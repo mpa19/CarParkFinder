@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.marc.carparkfinder.R;
-import com.example.marc.carparkfinder.ui.Reserva.Reservar;
+import com.example.marc.carparkfinder.ui.Reserva.ReservarActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -16,7 +16,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class DetailsParking extends AppCompatActivity implements OnMapReadyCallback {
+public class DetailsParkingActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
@@ -29,6 +29,10 @@ public class DetailsParking extends AppCompatActivity implements OnMapReadyCallb
                 .findFragmentById(R.id.map2);
         mapFragment.getMapAsync(this);
 
+        actionBar();
+    }
+
+    public void actionBar(){
         Toolbar tb = findViewById(R.id.toolbar3);
         setSupportActionBar(tb);
 
@@ -54,7 +58,7 @@ public class DetailsParking extends AppCompatActivity implements OnMapReadyCallb
     }
 
     public void btnR(View v){
-        Intent i = new Intent(this, Reservar.class);
+        Intent i = new Intent(this, ReservarActivity.class);
         startActivity(i);
     }
 }

@@ -12,9 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.marc.carparkfinder.ui.Detalles.DetailsParking;
+import com.example.marc.carparkfinder.ui.Detalles.DetailsParkingActivity;
 import com.example.marc.carparkfinder.R;
-import com.example.marc.carparkfinder.ui.Reserva.Reservar;
+import com.example.marc.carparkfinder.ui.Reserva.ReservarActivity;
 
 
 public class HomeFragment extends Fragment {
@@ -37,7 +37,7 @@ public class HomeFragment extends Fragment {
         btnR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), Reservar.class);
+                Intent i = new Intent(getActivity(), ReservarActivity.class);
                 startActivity(i);
             }
         });
@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
         btnM.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), DetailsParking.class);
+                Intent i = new Intent(getActivity(), DetailsParkingActivity.class);
                 startActivity(i);
             }
         });

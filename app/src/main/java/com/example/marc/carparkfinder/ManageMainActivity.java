@@ -11,7 +11,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-public class ManageMain extends AppCompatActivity {
+public class ManageMainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,12 +19,16 @@ public class ManageMain extends AppCompatActivity {
         setContentView(R.layout.activity_manage_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
+        setActionBar();
+
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupWithNavController(navView, navController);
+    }
+
+    public void setActionBar() {
         Toolbar tb = findViewById(R.id.toolbar);
         TextView title1 = findViewById(R.id.title);
         title1.setText(R.string.app_name);
         setSupportActionBar(tb);
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupWithNavController(navView, navController);
     }
 }

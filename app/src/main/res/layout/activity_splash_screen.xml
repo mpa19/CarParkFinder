@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:backgroundTint="#7F0047"
-    tools:context=".ui.Intro.SplashScreen">
+    tools:context=".ui.Intro.SplashScreenActivity">
 
     <ImageView
         android:id="@+id/imageView"
