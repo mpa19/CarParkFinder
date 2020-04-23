@@ -18,10 +18,10 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-
+        <activity android:name=".ui.ShraredPreferences.ShraredPreferencesActivity"></activity>
         <activity
             android:name=".ManageMainActivity"
-            android:label="@string/title_activity_manage_main"></activity>
+            android:label="@string/title_activity_manage_main" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -29,26 +29,23 @@
 
         <activity
             android:name=".ui.Route.MapsActivity"
+            android:label="@string/ruta"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/ruta" />
-
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.Login.LoginActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-
         <activity
             android:name=".ui.Reserva.SelectParking.ParkingActivity"
+            android:label="@string/select"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/select" />
-
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.Reserva.ReservarActivity"
+            android:label="@string/reserva"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/reserva" />
+            tools:ignore="LockedOrientationActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
@@ -56,10 +53,9 @@
 
         <activity
             android:name=".ui.Detalles.DetailsParkingActivity"
+            android:label="@string/info"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/info" />
-
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.Intro.SplashScreenActivity"
             android:screenOrientation="portrait"

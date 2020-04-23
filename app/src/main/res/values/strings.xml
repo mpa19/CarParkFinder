@@ -49,5 +49,7 @@
     <string name="reserva">Reserva</string>
     <string name="sel">Selecciona una plaça disponible</string>
     <string name="fail">Plaça seleccionada no disponible</string>
+    <string name="prefe">Preferències</string>
+    <string name="prefeEx">Preferències guardades amb èxit</string>
 
 </resources>

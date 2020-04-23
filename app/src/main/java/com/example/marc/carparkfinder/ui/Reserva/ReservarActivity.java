@@ -232,10 +232,6 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
         tv.setVisibility(View.VISIBLE);
     }
 
-    public void back(View v){
-        finish();
-    }
-
     public void change(View v){
         changed = true;
         i = new Intent(this, ParkingActivity.class);
@@ -243,6 +239,7 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
         else i.putExtra("Tipo", "Car");
         startActivityForResult(i,1);
     }
+
     public void reserv(View v){
         Intent a = new Intent(this, MapsActivity.class);
         startActivity(a);
