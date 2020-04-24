@@ -2,6 +2,7 @@ package com.example.marc.carparkfinder.ui.Home.ListsAdapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,12 +43,13 @@ public class ListCampusAdapter extends ArrayAdapter<Campus> {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
 
         boolean enabled = true;
+        boolean enabled2 = true;
         //getting the view
         View view = layoutInflater.inflate(resource, null, false);
 
         //getting the view elements of the list from the view
         ImageView imageView = view.findViewById(R.id.ivCampus);
-        TextView tvName = view.findViewById(R.id.tvCampus);
+        final TextView tvName = view.findViewById(R.id.tvCampus);
         TextView tvNumC = view.findViewById(R.id.tvNumC);
         TextView tvNumM = view.findViewById(R.id.tvNumM);
 
@@ -56,7 +58,7 @@ public class ListCampusAdapter extends ArrayAdapter<Campus> {
 
 
         //getting the hero of the specified position
-        Campus campus = objects.get(position);
+        final Campus campus = objects.get(position);
 
         //adding values to the list item
         imageView.setBackgroundResource(campus.getImage());
@@ -67,16 +69,29 @@ public class ListCampusAdapter extends ArrayAdapter<Campus> {
         if(tvNumC.getText().equals("0/0") && tvNumM.getText().equals("0/0")) {
             view.setAlpha((float) 0.4);
             enabled = false;
+        } else {
+            String[] coche = tvNumC.getText().toString().split("/");
+            String[] moto = tvNumM.getText().toString().split("/");
+
+            if(coche[0].equals("0") && moto[0].equals("0")) {
+                btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#8A7F0047")));
+                enabled2 = false;
+                tvNumC.setTextColor(Color.RED);
+            }
         }
+
 
         //adding a click listener to the button to remove item from the list
         final boolean finalEnabled = enabled;
+        final boolean finalEnabled2 = enabled2;
         btnR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(finalEnabled) {
+                if(finalEnabled && finalEnabled2) {
                     Intent i = new Intent(parent.getContext(), ReservarActivity.class);
                     parent.getContext().startActivity(i);
+                } else if(!finalEnabled2) {
+                    Toast.makeText(parent.getContext(), "No hi ha places disponible actualment", Toast.LENGTH_SHORT).show();
                 } else Toast.makeText(parent.getContext(), "No disponible actualment", Toast.LENGTH_SHORT).show();
             }
         });
@@ -86,11 +101,17 @@ public class ListCampusAdapter extends ArrayAdapter<Campus> {
             public void onClick(View view) {
                 if(finalEnabled) {
                     Intent i = new Intent(parent.getContext(), DetailsParkingActivity.class);
+                    if(campus.getCampus().equals(parent.getResources().getString(R.string.cap))){
+                        i.putExtra("Campus", 1);
+
+                    } else i.putExtra("Campus", 2);
                     parent.getContext().startActivity(i);
+
                 } else Toast.makeText(parent.getContext(), "No disponible actualment", Toast.LENGTH_SHORT).show();
             }
         });
 
         return view;
     }
+
 }

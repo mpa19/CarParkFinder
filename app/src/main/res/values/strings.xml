@@ -51,5 +51,7 @@
     <string name="fail">Plaça seleccionada no disponible</string>
     <string name="prefe">Preferències</string>
     <string name="prefeEx">Preferències guardades amb èxit</string>
-
+    <string name="cappontD">El campus de Cappont disposa d’un pàrquing soterrani amb 160 places d’aparcament, d’accés restringit per al PDI i el PAS.</string>
+    <string name="cappontL">Campus Cappont, Carrer de Jaume II, 67, 25001 Lleida</string>
+    <string name="selec">Selecció de les preferències</string>
 </resources>

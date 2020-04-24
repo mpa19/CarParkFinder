@@ -6,7 +6,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -51,6 +53,11 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
     boolean vehicle = true;
     boolean hora = true;
 
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String Tipus = "phoneKey";
+
+    SharedPreferences sharedpreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +71,8 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
         actionBar();
 
         controlTime();
+
+        sharedpref();
 
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +91,12 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
                 timePicker.show(getSupportFragmentManager(), "time picker");
             }
         });
+    }
+
+    public void sharedpref(){
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String tipus = sharedpreferences.getString(Tipus, "");
+        if(tipus.equals("moto")) rbM.setChecked(true);
     }
 
     public void getFindVar() {

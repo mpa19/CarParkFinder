@@ -88,7 +88,7 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void inicializar(View view){
-        titul = view.findViewById(R.id.textView7);
+        titul = view.findViewById(R.id.tvNom);
         entrada = view.findViewById(R.id.textView39);
         sortida = view.findViewById(R.id.textView40);
         hora = view.findViewById(R.id.textView36);

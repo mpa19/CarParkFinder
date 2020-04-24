@@ -55,7 +55,7 @@
                         android:background="@drawable/car" />
 
                     <TextView
-                        android:id="@+id/textView15"
+                        android:id="@+id/tvC"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
@@ -80,7 +80,7 @@
                         android:background="@drawable/moto" />
 
                     <TextView
-                        android:id="@+id/textView14"
+                        android:id="@+id/tvM"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="15dp"
