@@ -55,6 +55,11 @@ public class HomeFragment extends Fragment {
         campusList = new ArrayList<>();
         listView = view.findViewById(R.id.listview);
 
+        campusList2.add(new Campus(R.drawable.rectorat, getResources().getString(R.string.rect), "60/62", "0/12"));
+        campusList2.add(new Campus(R.drawable.cappont, getResources().getString(R.string.cap), "0/160", "0/0"));
+        campusList2.add(new Campus(R.drawable.salut, getResources().getString(R.string.salut), "0/0", "0/0"));
+        campusList2.add(new Campus(R.drawable.etsea, getResources().getString(R.string.etsa), "0/0", "0/0"));
+
         createList();
     }
 
@@ -66,10 +71,7 @@ public class HomeFragment extends Fragment {
         //adding some values to our list
         sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
-        campusList2.add(new Campus(R.drawable.rectorat, getResources().getString(R.string.rect), "60/62", "0/12"));
-        campusList2.add(new Campus(R.drawable.cappont, getResources().getString(R.string.cap), "0/160", "0/0"));
-        campusList2.add(new Campus(R.drawable.salut, getResources().getString(R.string.salut), "0/0", "0/0"));
-        campusList2.add(new Campus(R.drawable.etsea, getResources().getString(R.string.etsa), "0/0", "0/0"));
+
 
         if(sharedpreferences != null) {
             type = sharedpreferences.getInt(Campus, 0);
@@ -97,6 +99,7 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         campusList = new ArrayList<>();
+        listView.setAdapter(null);
         createList();
 
     }
