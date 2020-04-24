@@ -1,6 +1,7 @@
-package com.example.marc.carparkfinder;
+package com.example.marc.carparkfinder.ui.Reserva.SelectParking;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,14 +14,17 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.marc.carparkfinder.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Parking extends AppCompatActivity {
+public class ParkingActivity extends AppCompatActivity {
     GripAdapter adapter;
     GridView gv;
     private int selected = -1;
@@ -51,10 +55,47 @@ public class Parking extends AppCompatActivity {
         val = extras.getString("Tipo");
 
         getUpList();
+
+        createAdapter();
+
+        actionBar();
+
+        ImageView tv = findViewById(R.id.btnCheck);
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(selected>-1){
+                    Intent result = new Intent();
+                    result.putExtra("celda", selected+1);
+                    setResult(RESULT_OK, result);
+                    finish();
+                } else Toast.makeText(ParkingActivity.this, R.string.sel, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void createAdapter() {
         gv = findViewById(R.id.gv1);
         adapter = new GripAdapter(lastSource1, this);
         gv.setAdapter(adapter);
         gv.setOnItemClickListener(adapter);
+    }
+
+    public void actionBar(){
+        Toolbar tb = findViewById(R.id.toolbar6);
+        setSupportActionBar(tb);
+
+        // Añadir flecha atras en toolbar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_close_clear_cancel);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void getUpList() {
@@ -77,12 +118,6 @@ public class Parking extends AppCompatActivity {
         finish();
     }
 
-    public void correct(View V){
-        Intent result = new Intent();
-        result.putExtra("celda", selected+1);
-        setResult(RESULT_OK, result);
-        finish();
-    }
 
     class GripAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
         Context context;
@@ -151,12 +186,12 @@ public class Parking extends AppCompatActivity {
                 if(!lastSourceM.contains(String.valueOf(position+1)) && lastSource2.contains(String.valueOf(position+1))) {
                     selected = position;
                     adapter.notifyDataSetChanged();
-                }
+                } else Toast.makeText(context, R.string.fail, Toast.LENGTH_SHORT).show();
             } else {
                 if(lastSourceM.contains(String.valueOf(position+1)) && lastSource3.contains(String.valueOf(position+1))) {
                     selected = position;
                     adapter.notifyDataSetChanged();
-                }
+                } else Toast.makeText(context, String.valueOf(R.string.fail), Toast.LENGTH_SHORT).show();
             }
         }
     }

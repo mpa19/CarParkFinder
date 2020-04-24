@@ -1,11 +1,14 @@
-package com.example.marc.carparkfinder;
+package com.example.marc.carparkfinder.ui.Reserva;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,12 +22,17 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.marc.carparkfinder.ui.Reserva.SelectParking.ParkingActivity;
+import com.example.marc.carparkfinder.R;
+import com.example.marc.carparkfinder.ui.Reserva.TimerHelper.TimePickerFragment;
+import com.example.marc.carparkfinder.ui.Route.MapsActivity;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Reservar extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+public class ReservarActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
     Button btnR;
     Button btnC;
     RadioButton rbM;
@@ -40,9 +48,15 @@ public class Reservar extends AppCompatActivity implements TimePickerDialog.OnTi
     Date date2 = null;
     Date date3 = null;
     Date date4 = null;
+    RadioGroup rg;
 
     boolean vehicle = true;
     boolean hora = true;
+
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String Tipus = "phoneKey";
+
+    SharedPreferences sharedpreferences;
 
 
     @Override
@@ -50,7 +64,43 @@ public class Reservar extends AppCompatActivity implements TimePickerDialog.OnTi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservar);
 
-        RadioGroup rg = findViewById(R.id.rg);
+        getFindVar();
+
+        setVar();
+
+        actionBar();
+
+        controlTime();
+
+        sharedpref();
+
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timer = 1;
+                DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getSupportFragmentManager(), "time picker");
+            }
+        });
+
+        textView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timer = 2;
+                DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getSupportFragmentManager(), "time picker");
+            }
+        });
+    }
+
+    public void sharedpref(){
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String tipus = sharedpreferences.getString(Tipus, "");
+        if(tipus.equals("moto")) rbM.setChecked(true);
+    }
+
+    public void getFindVar() {
+        rg = findViewById(R.id.rg);
         btnR = findViewById(R.id.button10);
         rbM = findViewById(R.id.radioButton5);
         btnC = findViewById(R.id.button11);
@@ -58,7 +108,9 @@ public class Reservar extends AppCompatActivity implements TimePickerDialog.OnTi
         tvCelda = findViewById(R.id.textView32);
         textView =  findViewById(R.id.editText);
         textView2 =  findViewById(R.id.editText2);
+    }
 
+    public void setVar() {
         textView.setShowSoftInputOnFocus(false);
         textView.setInputType(InputType.TYPE_NULL);
         textView.setFocusable(false);
@@ -66,8 +118,26 @@ public class Reservar extends AppCompatActivity implements TimePickerDialog.OnTi
         textView2.setShowSoftInputOnFocus(false);
         textView2.setInputType(InputType.TYPE_NULL);
         textView2.setFocusable(false);
+    }
+
+    public void actionBar() {
+        Toolbar tb = findViewById(R.id.toolbar4);
+        setSupportActionBar(tb);
+
+        // Añadir flecha atras en toolbar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
 
 
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    public void controlTime() {
         calendar1 = Calendar.getInstance();
         sdf = new SimpleDateFormat("HH:mm");
 
@@ -102,7 +172,7 @@ public class Reservar extends AppCompatActivity implements TimePickerDialog.OnTi
                         btnR.setEnabled(false);
                         btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#8A7F0047")));
 
-                        Toast.makeText(Reservar.this, "No hi ha places disponibles", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ReservarActivity.this, "No hi ha places disponibles", Toast.LENGTH_SHORT).show();
 
                     } else {
                         vehicle = true;
@@ -114,24 +184,6 @@ public class Reservar extends AppCompatActivity implements TimePickerDialog.OnTi
                 }
             });
         }
-
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timer = 1;
-                DialogFragment timePicker = new TimePickerFragment();
-                timePicker.show(getSupportFragmentManager(), "time picker");
-            }
-        });
-
-        textView2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timer = 2;
-                DialogFragment timePicker = new TimePickerFragment();
-                timePicker.show(getSupportFragmentManager(), "time picker");
-            }
-        });
     }
 
     @Override
@@ -195,17 +247,14 @@ public class Reservar extends AppCompatActivity implements TimePickerDialog.OnTi
         tv.setVisibility(View.VISIBLE);
     }
 
-    public void back(View v){
-        finish();
-    }
-
     public void change(View v){
         changed = true;
-        i = new Intent(this, Parking.class);
+        i = new Intent(this, ParkingActivity.class);
         if(rbM.isChecked()) i.putExtra("Tipo", "Moto");
         else i.putExtra("Tipo", "Car");
         startActivityForResult(i,1);
     }
+
     public void reserv(View v){
         Intent a = new Intent(this, MapsActivity.class);
         startActivity(a);

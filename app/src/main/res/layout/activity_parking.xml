@@ -5,58 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Parking">
+    tools:context=".ui.Reserva.SelectParking.ParkingActivity">
 
-    <LinearLayout
+    <include
+        android:id="@+id/toolbar6"
+        layout="@layout/toolbar_parking"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="2.27"
-        android:background="#7F0047"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="4.3"
-            android:background="@android:drawable/ic_menu_close_clear_cancel"
-            android:backgroundTint="#050505"
-            android:onClick="back"
-            android:textAlignment="viewStart" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="11dp"
-            android:layout_weight="1.7"
-            android:fontFamily="@font/averia_libre"
-            android:gravity="center_vertical"
-            android:text="@string/select"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/button14"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="-5dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="4.5"
-            android:background="@drawable/check"
-            android:backgroundTint="#459A0F"
-            android:onClick="correct" />
-
-    </LinearLayout>
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="2.3"
-        android:background="#686767"
+        android:background="#9E686767"
         android:orientation="vertical">
 
         <ImageView
@@ -78,8 +39,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#686767"
+            android:layout_weight="1.25"
+            android:background="#9E686767"
             android:orientation="horizontal">
 
             <ImageView
@@ -107,8 +68,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#686767"
+            android:layout_weight="1.25"
+            android:background="#9E686767"
             android:orientation="horizontal">
 
             <ImageView
@@ -125,7 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="2.3"
-        android:background="#686767"
+        android:background="#9E686767"
         android:orientation="horizontal">
 
         <ImageView

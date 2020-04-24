@@ -1,4 +1,4 @@
-package com.example.marc.carparkfinder;
+package com.example.marc.carparkfinder.ui.Login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class LoginApp extends AppCompatActivity {
+import com.example.marc.carparkfinder.ManageMainActivity;
+import com.example.marc.carparkfinder.R;
+
+public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +18,7 @@ public class LoginApp extends AppCompatActivity {
     }
 
     public void signin(View v){
-        Intent i = new Intent(this, HomePage.class);
+        Intent i = new Intent(this, ManageMainActivity.class);
         startActivity(i);
         finish();
     }

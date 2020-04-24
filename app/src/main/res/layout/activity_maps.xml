@@ -6,41 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MapsActivity" >
+    tools:context=".ui.Route.MapsActivity" >
 
-    <LinearLayout
+    <include
+        android:id="@+id/toolbar5"
+        layout="@layout/toolbar2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="11"
-        android:background="#7F0047"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="4.5"
-            android:background="@android:drawable/ic_menu_close_clear_cancel"
-            android:backgroundTint="#070707"
-            android:onClick="exit"
-            android:textAlignment="viewStart" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="11dp"
-            android:layout_weight="1"
-            android:fontFamily="serif"
-            android:gravity="center_vertical"
-            android:text="@string/ruta"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold|italic" />
-
-    </LinearLayout>
+        android:layout_height="wrap_content"/>
 
     <fragment
         android:id="@+id/map"
@@ -48,6 +20,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.9"
-        tools:context=".MapsActivity" />
+        tools:context=".ui.Route.MapsActivity" />
 
 </LinearLayout>

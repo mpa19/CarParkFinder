@@ -1,4 +1,4 @@
-package com.example.marc.carparkfinder;
+package com.example.marc.carparkfinder.ui.Intro;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,8 +7,11 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.example.marc.carparkfinder.ui.Login.LoginActivity;
+import com.example.marc.carparkfinder.R;
 
-public class SplashScreen extends AppCompatActivity {
+
+public class SplashScreenActivity extends AppCompatActivity {
 
     AsynTaskRunner runner;
     @Override
@@ -35,7 +38,7 @@ public class SplashScreen extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap s) {
             super.onPostExecute(s);
-            Intent i = new Intent(getApplicationContext(), LoginApp.class);
+            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(i);
             finish();
         }
