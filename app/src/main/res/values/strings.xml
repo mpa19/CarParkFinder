@@ -54,4 +54,9 @@
     <string name="cappontD">El campus de Cappont disposa d’un pàrquing soterrani amb 160 places d’aparcament, d’accés restringit per al PDI i el PAS.</string>
     <string name="cappontL">Campus Cappont, Carrer de Jaume II, 67, 25001 Lleida</string>
     <string name="selec">Selecció de les preferències</string>
+    <string name="regis"><u>Registrat!</u></string>
+    <string name="textRegis">No tens cap conta?</string>
+    <string name="registrat"><u>Registre</u></string>
+    <string name="bntRegis">Registrar-me</string>
+    <string name="cancelar"><u>   Cancel·lar   </u></string>
 </resources>

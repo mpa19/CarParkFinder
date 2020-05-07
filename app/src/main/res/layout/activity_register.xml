@@ -2,11 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Login.LoginActivity">
-
+    tools:context=".ui.Login.RegisterActivity">
 
     <LinearLayout
         android:layout_width="350dp"
@@ -24,14 +22,24 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="30dp"
-            android:text="@string/inic"
+            android:text="@string/registrat"
             android:textAlignment="center"
             android:textColor="#7F0047"
             android:textSize="24sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/tvEmail"
+            android:id="@+id/tvFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:hint="Nom complert"
+            android:inputType="textEmailAddress"
+            android:textColor="#7F0047" />
+
+        <EditText
+            android:id="@+id/tvEmailR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -41,7 +49,7 @@
             android:textColor="#7F0047" />
 
         <EditText
-            android:id="@+id/tvPassword"
+            android:id="@+id/tvPasswordR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -50,55 +58,36 @@
             android:inputType="textPassword"
             android:textColor="#7F0047" />
 
-        <CheckBox
-            android:id="@+id/remember"
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/tvPassword2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:text="Recordar email" />
+            android:layout_gravity="center"
+            android:ems="10"
+            android:hint="Repeteix password"
+            android:inputType="textPassword"
+            android:textColor="#7F0047" />
 
         <Button
-            android:id="@+id/btnEntrar"
+            android:id="@+id/btnRegistrar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="40dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
             android:background="#7F0047"
-            android:text="Entrar"
+            android:text="@string/bntRegis"
             android:textColor="#FDFCFC" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvCancelar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="@string/textRegis"
-                android:textColor="#070707"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tvRegis"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="regis"
-                android:text="@string/regis"
-                android:textColor="#0839C6"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:onClick="cancel"
+            android:text="@string/cancelar"
+            android:textSize="16sp" />
 
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,7 +18,8 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ui.ShraredPreferences.ShraredPreferencesActivity"></activity>
+        <activity android:name=".ui.Login.RegisterActivity"></activity>
+        <activity android:name=".ui.ShraredPreferences.ShraredPreferencesActivity" />
         <activity
             android:name=".ManageMainActivity"
             android:label="@string/title_activity_manage_main" />

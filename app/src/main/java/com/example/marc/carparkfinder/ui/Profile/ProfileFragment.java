@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.marc.carparkfinder.ui.Login.LoginActivity;
 import com.example.marc.carparkfinder.R;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ProfileFragment extends Fragment {
 
@@ -24,6 +25,7 @@ public class ProfileFragment extends Fragment {
         View root = inflater.inflate(R.layout.activity_profile, container, false);
         return root;
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -39,6 +41,9 @@ public class ProfileFragment extends Fragment {
                 cerrar();
             }
         });
+
+        //FirebaseUser user = mAuth.getCurrentUser();
+
     }
 
     public void cerrar(){
