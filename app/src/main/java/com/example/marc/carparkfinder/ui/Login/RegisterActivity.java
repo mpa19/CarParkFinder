@@ -62,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                                     } else {
                                         // If sign in fails, display a message to the user.Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                                        Toast.makeText(getApplication(), "Email i/o contrasenya incorrectes!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplication(), "Email ja registat!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
