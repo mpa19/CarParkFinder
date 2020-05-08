@@ -112,12 +112,6 @@ public class ParkingActivity extends AppCompatActivity {
             lastSource3.add(item);
     }
 
-    public void back(View v){
-        Intent result = new Intent();
-        setResult(RESULT_CANCELED, result);
-        finish();
-    }
-
 
     class GripAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
         Context context;

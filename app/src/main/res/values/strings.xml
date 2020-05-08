@@ -59,4 +59,5 @@
     <string name="registrat"><u>Registre</u></string>
     <string name="bntRegis">Registrar-me</string>
     <string name="cancelar"><u>   Cancel·lar   </u></string>
+    <string name="nada">No tens cap reserva</string>
 </resources>

@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +26,17 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
@@ -32,20 +45,22 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
     TextView titul;
     TextView entrada;
     TextView sortida;
-    TextView hora;
-    TextView placas;
-    TextView tipus;
     TextView placa;
-    TextView ent;
-    TextView sort;
     ImageView vehicle;
     Button com;
     Button cancel;
+    ScrollView sc;
+
+    String documentID;
 
 
     SupportMapFragment mapFragment;
 
     private Marker Posi;
+
+    private FirebaseAuth mAuth;
+    FirebaseUser user;
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -63,10 +78,15 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
                 .findFragmentById(R.id.map4);
         mapFragment.getMapAsync(this);
 
+
+
+
         TextView tv = getActivity().findViewById(R.id.title);
         tv.setText(R.string.mires);
 
         inicializar(view);
+
+        llamar();
 
         Button btnC = view.findViewById(R.id.btnCancelar);
         btnC.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +95,6 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
                 clear();
             }
         });
-
 
         Button btnArr = view.findViewById(R.id.btnArr);
         btnArr.setOnClickListener(new View.OnClickListener() {
@@ -87,19 +106,67 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
+    private void llamar(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Reserva").whereEqualTo("User", user.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                sc.setVisibility(View.VISIBLE);
+                                com.setEnabled(true);
+                                cancel.setEnabled(true);
+                                com.setVisibility(View.VISIBLE);
+                                cancel.setVisibility(View.VISIBLE);
+                                documentID = document.getId();
+                                titul.setText(document.getString("Campus"));
+                                placa.setText(document.get("Parking").toString());
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void delete(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Reserva").document(documentID)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        titul.setText("No hi ha cap reserva");
+                        sc.setVisibility(View.INVISIBLE);
+                        vehicle.setBackground(null);
+                        Posi.remove();
+                        com.setEnabled(false);
+                        cancel.setEnabled(false);
+                        com.setVisibility(View.INVISIBLE);
+                        cancel.setVisibility(View.INVISIBLE);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "No ha sigut possible eliminar la reserva, torna a intentar-ho en uns minuts", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
     public void inicializar(View view){
         titul = view.findViewById(R.id.tvNom);
         entrada = view.findViewById(R.id.textView39);
         sortida = view.findViewById(R.id.textView40);
-        hora = view.findViewById(R.id.textView36);
-        placas = view.findViewById(R.id.textView31);
-        tipus = view.findViewById(R.id.textView38);
         placa = view.findViewById(R.id.textView32);
         vehicle = view.findViewById(R.id.imageView10);
         com = view.findViewById(R.id.btnArr);
         cancel = view.findViewById(R.id.btnCancelar);
-        ent = view.findViewById(R.id.textView21);
-        sort = view.findViewById(R.id.textView19);
+        sc = view.findViewById(R.id.sc1);
+
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
     }
 
     @Override
@@ -117,21 +184,10 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
                 .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        titul.setText("No hi ha cap reserva");
-                        entrada.setText("");
-                        sortida.setText("");
-                        placa.setText("");
-                        vehicle.setBackground(null);
-                        Posi.remove();
-                        com.setEnabled(false);
-                        cancel.setEnabled(false);
-                        com.setVisibility(View.INVISIBLE);
-                        cancel.setVisibility(View.INVISIBLE);
-                        placas.setText("");
-                        hora.setText("");
-                        tipus.setText("");
-                        ent.setText("");
-                        sort.setText("");
+
+                            delete();
+                        /* DELETE BASE DE DADES */
+
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
