@@ -2,12 +2,15 @@ package com.example.marc.carparkfinder.ui.Home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +19,11 @@ import androidx.fragment.app.Fragment;
 import com.example.marc.carparkfinder.R;
 import com.example.marc.carparkfinder.ui.Home.ListsAdapter.Campus;
 import com.example.marc.carparkfinder.ui.Home.ListsAdapter.ListCampusAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,12 +60,43 @@ public class HomeFragment extends Fragment {
         campusList = new ArrayList<>();
         listView = view.findViewById(R.id.listview);
 
-        campusList2.add(new Campus(R.drawable.rectorat, getResources().getString(R.string.rect), "60/62", "0/12"));
-        campusList2.add(new Campus(R.drawable.cappont, getResources().getString(R.string.cap), "0/160", "0/0"));
-        campusList2.add(new Campus(R.drawable.salut, getResources().getString(R.string.salut), "0/0", "0/0"));
-        campusList2.add(new Campus(R.drawable.etsea, getResources().getString(R.string.etsa), "0/0", "0/0"));
 
-        createList();
+        getParking();
+    }
+
+    private void getParking(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Campus")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            campusList2 = new ArrayList<>();
+                            campusList = new ArrayList<>();
+                            listView.setAdapter(null);
+
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                int fotoC = 0;
+                                if(document.getId().equals("Campus de Rectorat")) {
+                                    fotoC = R.drawable.rectorat;
+                                } else if(document.getId().equals("Campus de Cappont")) {
+                                    fotoC = R.drawable.cappont;
+                                }
+
+                                String car = document.getString("DisponiblesC")+"/"+document.getString("MaxC");
+                                String moto = document.getString("DisponiblesM")+"/"+document.getString("MaxM");
+                                campusList2.add(new Campus(fotoC, document.getId(), car, moto));
+                            }
+                        }
+                        campusList2.add(new Campus(R.drawable.salut, getResources().getString(R.string.salut), "0/0", "0/0"));
+                        campusList2.add(new Campus(R.drawable.etsea, getResources().getString(R.string.etsa), "0/0", "0/0"));
+                        createList();
+
+                    }
+                });
+
     }
 
 
@@ -69,11 +108,10 @@ public class HomeFragment extends Fragment {
         sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
 
-
         if(sharedpreferences != null) {
             type = sharedpreferences.getInt(Campus, 0);
-            if(type == 0) campusList.add(new Campus(R.drawable.rectorat, getResources().getString(R.string.rect), "60/62", "0/12"));
-            else campusList.add(new Campus(R.drawable.cappont, getResources().getString(R.string.cap), "0/160", "0/0"));
+            if(type == 0) campusList.add(campusList2.get(0));
+            else campusList.add(campusList2.get(1));
         }
 
 
@@ -95,9 +133,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        campusList = new ArrayList<>();
-        listView.setAdapter(null);
-        createList();
+        //campusList = new ArrayList<>();
+        //listView.setAdapter(null);
+        getParking();
 
     }
 }

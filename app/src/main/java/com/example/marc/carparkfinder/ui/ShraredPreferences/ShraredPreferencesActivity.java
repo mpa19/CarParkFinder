@@ -37,7 +37,7 @@ public class ShraredPreferencesActivity extends AppCompatActivity implements Ada
 
         ImageView btnC = findViewById(R.id.btnCheck);
         ListView lv = findViewById(R.id.lv);
-        String[] mobileArray = {getResources().getString(R.string.rect), getResources().getString(R.string.cap)};
+        String[] mobileArray = {getResources().getString(R.string.cap),getResources().getString(R.string.rect)};
         ArrayAdapter adapter = new ArrayAdapter<String>(this,
                 R.layout.simple_list_view, R.id.textView, mobileArray);
 

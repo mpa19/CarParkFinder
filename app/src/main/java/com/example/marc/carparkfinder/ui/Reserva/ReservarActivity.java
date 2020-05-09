@@ -61,8 +61,8 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
     RadioGroup rg;
     TextView tvC;
     TextView tvM;
-    int motosA;
-    int carA;
+    int motosA = 0;
+    int carA = 0;
 
     boolean vehicle = true;
     boolean hora = true;
@@ -87,9 +87,12 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
 
         actionBar();
 
-        controlTime();
+        //controlTime();
 
+        vehicleCheck();
         sharedpref();
+
+
 
         etEntrada.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +116,12 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
     public void sharedpref(){
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         String tipus = sharedpreferences.getString(Tipus, "");
-        if(tipus.equals("moto")) rbM.setChecked(true);
+        if(tipus.equals("moto")) {
+            rbM.setChecked(true);
+            check(R.id.radioButton5);
+        } else {
+            check(R.id.radioButton4);
+        }
     }
 
     public void getFindVar() {
@@ -130,6 +138,7 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
         tvM = findViewById(R.id.tvM);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+
     }
 
     public void setVar() {
@@ -209,8 +218,10 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
 
         if (calendar1.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || date1.before(date2) || date1.after(date4)) {
             desactivar();
+            tv.setVisibility(View.VISIBLE);
         } else if(calendar1.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY && date1.after(date3)) {
             desactivar();
+            tv.setVisibility(View.VISIBLE);
         } else {
             vehicleCheck();
         }
@@ -220,41 +231,39 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.radioButton5) {
-                    /* Moto */
-                    if(motosA == 0) {
-                        vehicle = false;
-                        btnR.setEnabled(false);
-                        btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#8A7F0047")));
-
-                        Toast.makeText(ReservarActivity.this, "No hi ha places disponibles", Toast.LENGTH_SHORT).show();
-                    } else {
-                        vehicle = true;
-                        if(hora){
-                            btnR.setEnabled(true);
-                            btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#7F0047")));
-                        }
-                    }
-
-
-                } else {
-                    /* Car */
-                    if(carA == 0) {
-                        vehicle = false;
-                        btnR.setEnabled(false);
-                        btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#8A7F0047")));
-
-                        Toast.makeText(ReservarActivity.this, "No hi ha places disponibles", Toast.LENGTH_SHORT).show();
-                    } else {
-                        vehicle = true;
-                        if (hora) {
-                            btnR.setEnabled(true);
-                            btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#7F0047")));
-                        }
-                    }
-                }
+                check(checkedId);
             }
         });
+    }
+
+    private void check(int checkedId){
+        if (checkedId == R.id.radioButton5) {
+            /* Moto */
+            if(motosA == 0) {
+                vehicle = false;
+                desactivar();
+
+                Toast.makeText(ReservarActivity.this, "No hi ha places disponibles", Toast.LENGTH_SHORT).show();
+            } else {
+                vehicle = true;
+                if(hora){
+                    activar();
+                }
+            }
+        } else {
+            /* Car */
+            if(carA == 0) {
+                vehicle = false;
+                desactivar();
+
+                Toast.makeText(ReservarActivity.this, "No hi ha places disponibles", Toast.LENGTH_SHORT).show();
+            } else {
+                vehicle = true;
+                if (hora) {
+                    activar();
+                }
+            }
+        }
     }
 
     @Override
@@ -315,7 +324,13 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
         btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#8A7F0047")));
         btnC.setEnabled(false);
         btnC.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#8A7F0047")));
-        tv.setVisibility(View.VISIBLE);
+    }
+
+    public void activar(){
+        btnR.setEnabled(true);
+        btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#7F0047")));
+        btnC.setEnabled(true);
+        btnC.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#7F0047")));
     }
 
     public void change(View v){

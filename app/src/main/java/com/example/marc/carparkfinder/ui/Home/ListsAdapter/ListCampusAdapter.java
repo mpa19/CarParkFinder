@@ -78,6 +78,13 @@ public class ListCampusAdapter extends ArrayAdapter<Campus> {
                 enabled2 = false;
                 tvNumC.setTextColor(Color.RED);
             }
+
+            if(coche[0].equals("0")) tvNumC.setTextColor(Color.RED);
+            else tvNumC.setTextColor(Color.parseColor("#38D101"));
+
+            if(moto[0].equals("0")) tvNumM.setTextColor(Color.RED);
+            else tvNumM.setTextColor(Color.parseColor("#38D101"));
+
         }
 
 
