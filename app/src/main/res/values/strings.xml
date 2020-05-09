@@ -26,7 +26,7 @@
     <string name="horaSortida">Hora de sortida:</string>
     <string name="tipus">Tipus de vehicle:</string>
     <string name="placa">Plaça:</string>
-    <string name="placaS">Canviar</string>
+    <string name="placaS">Seleccionar</string>
     <string name="infoB">Informació bàsica</string>
     <string name="infoC">Informació de contacte</string>
     <string name="profile">Perfil</string>

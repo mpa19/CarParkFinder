@@ -96,6 +96,10 @@ public class ListCampusAdapter extends ArrayAdapter<Campus> {
             public void onClick(View view) {
                 if(finalEnabled && finalEnabled2) {
                     Intent i = new Intent(parent.getContext(), ReservarActivity.class);
+                    if(campus.getCampus().equals(parent.getResources().getString(R.string.cap))){
+                        i.putExtra("Campus", 1);
+
+                    } else i.putExtra("Campus", 2);
                     parent.getContext().startActivity(i);
                 } else if(!finalEnabled2) {
                     Toast.makeText(parent.getContext(), "No hi ha places disponible actualment", Toast.LENGTH_SHORT).show();

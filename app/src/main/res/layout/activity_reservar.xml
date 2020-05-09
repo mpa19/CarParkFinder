@@ -51,15 +51,16 @@
                         android:id="@+id/imageView8"
                         android:layout_width="80dp"
                         android:layout_height="50dp"
-                        android:layout_marginLeft="25dp"
+                        android:layout_marginLeft="20dp"
                         android:background="@drawable/car" />
 
                     <TextView
                         android:id="@+id/tvC"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="5dp"
                         android:gravity="center_horizontal|center_vertical"
+                        android:text="160/160"
                         android:textColor="#38D101"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -254,7 +255,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1"
-                        android:text="5"
+                        android:text="0"
                         android:textColor="#090909"
                         android:textSize="20sp" />
 

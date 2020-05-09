@@ -20,6 +20,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
 
@@ -30,6 +33,7 @@ public class DetailsParkingActivity extends AppCompatActivity implements OnMapRe
     TextView tvC;
     TextView tvM;
     Boolean enabled = true;
+    TextView titul;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +49,17 @@ public class DetailsParkingActivity extends AppCompatActivity implements OnMapRe
 
         actionBar();
 
-        tvC = findViewById(R.id.tvC);
-        tvM = findViewById(R.id.tvM);
+        getVar();
 
         if(val == 1) setInfoC();
 
-        available();
+        getParking();
+    }
+
+    private void getVar(){
+        titul = findViewById(R.id.tvNom);
+        tvC = findViewById(R.id.tvC);
+        tvM = findViewById(R.id.tvM);
     }
 
     public void available(){
@@ -67,15 +76,10 @@ public class DetailsParkingActivity extends AppCompatActivity implements OnMapRe
     public void setInfoC(){
         TextView tvD = findViewById(R.id.tvD);
         TextView tvL = findViewById(R.id.tvL);
-        TextView tvN = findViewById(R.id.tvNom);
 
-
-        tvC.setText("0/160");
-        tvC.setTextColor(Color.RED);
-        tvM.setText("0/0");
         tvD.setText(R.string.cappontD);
         tvL.setText(R.string.cappontL);
-        tvN.setText(R.string.cap);
+        titul.setText(R.string.cap);
     }
 
     public void actionBar(){
@@ -110,7 +114,35 @@ public class DetailsParkingActivity extends AppCompatActivity implements OnMapRe
     public void btnR(View v){
         if(enabled) {
             Intent i = new Intent(this, ReservarActivity.class);
+            if(titul.getText().toString().equals(getResources().getString(R.string.cap))){
+                i.putExtra("Campus", 1);
+
+            } else i.putExtra("Campus", 2);
             startActivity(i);
         } else Toast.makeText(this, "No hi ha places disponible actualment", Toast.LENGTH_SHORT).show();
+    }
+
+    private void getParking(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Campus")
+                .document(titul.getText().toString())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists()) {
+                            String car = documentSnapshot.getString("DisponiblesC");
+                            if(car.equals("0")) tvC.setTextColor(Color.parseColor("#FF0101"));
+                            else tvC.setTextColor(Color.parseColor("#38D101"));
+                            tvC.setText(car+"/"+documentSnapshot.getString("MaxC"));
+
+                            String moto = documentSnapshot.getString("DisponiblesM");
+                            if(moto.equals("0")) tvM.setTextColor(Color.parseColor("#FF0101"));
+                            else tvM.setTextColor(Color.parseColor("#38D101"));
+                            tvM.setText(moto+"/"+documentSnapshot.getString("MaxM"));
+                            available();
+                        }
+                    }
+                });
     }
 }

@@ -74,12 +74,15 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
 
     private FirebaseAuth mAuth;
     FirebaseUser user;
-
+    int val;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservar);
+
+        Bundle extras = getIntent().getExtras();
+        val = extras.getInt("Campus");
 
         getFindVar();
 
@@ -88,11 +91,6 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
         actionBar();
 
         //controlTime();
-
-        vehicleCheck();
-        sharedpref();
-
-
 
         etEntrada.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,6 +148,7 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
         etSortida.setInputType(InputType.TYPE_NULL);
         etSortida.setFocusable(false);
 
+        if(val == 1) titul.setText("Campus de Cappont");
         getParking();
     }
 
@@ -173,6 +172,10 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
                             else tvM.setTextColor(Color.parseColor("#38D101"));
                             tvM.setText(moto+"/"+documentSnapshot.getString("MaxM"));
                             motosA = Integer.valueOf(moto);
+
+                            //controlTime();
+                            vehicleCheck();
+                            sharedpref();
                         }
                     }
                 });
@@ -218,9 +221,11 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
 
         if (calendar1.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || date1.before(date2) || date1.after(date4)) {
             desactivar();
+            hora = false;
             tv.setVisibility(View.VISIBLE);
         } else if(calendar1.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY && date1.after(date3)) {
             desactivar();
+            hora = false;
             tv.setVisibility(View.VISIBLE);
         } else {
             vehicleCheck();
@@ -342,36 +347,40 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
     }
 
     public void reserv(View v){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Map<String, Object> docData = new HashMap<>();
-        docData.put("Campus", titul.getText());
-        docData.put("HEntrada", etEntrada.getText().toString());
-        docData.put("HSortida", etSortida.getText().toString());
-        docData.put("Parking", tvCelda.getText());
+        if(tvCelda.getText().toString().equals("0"))
+            Toast.makeText(this, "Es necessari elegir un aparcament", Toast.LENGTH_SHORT).show();
+        else {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            Map<String, Object> docData = new HashMap<>();
+            docData.put("Campus", titul.getText());
+            docData.put("HEntrada", etEntrada.getText().toString());
+            docData.put("HSortida", etSortida.getText().toString());
+            docData.put("Parking", tvCelda.getText());
 
-        if(rbM.isChecked())  docData.put("Tipo", "Moto");
-        else docData.put("Tipo", "Car");
+            if (rbM.isChecked()) docData.put("Tipo", "Moto");
+            else docData.put("Tipo", "Car");
 
-        db.collection("Reserva").document(user.getUid())
-                .set(docData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        getParking();
+            db.collection("Reserva").document(user.getUid())
+                    .set(docData)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            getParking();
 
-                        changeCampus();
+                            changeCampus();
 
-                        Intent a = new Intent(getApplication(), MapsActivity.class);
-                        startActivity(a);
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(ReservarActivity.this, "Error al reserva, intenta un altre cop en uns minuts", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                            Intent a = new Intent(getApplication(), MapsActivity.class);
+                            startActivity(a);
+                            finish();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ReservarActivity.this, "Error al reserva, intenta un altre cop en uns minuts", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
 
     private void changeCampus(){
