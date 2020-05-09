@@ -1,5 +1,6 @@
 package com.example.marc.carparkfinder.ui.Reserva;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -26,11 +27,19 @@ import com.example.marc.carparkfinder.ui.Reserva.SelectParking.ParkingActivity;
 import com.example.marc.carparkfinder.R;
 import com.example.marc.carparkfinder.ui.Reserva.TimerHelper.TimePickerFragment;
 import com.example.marc.carparkfinder.ui.Route.MapsActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ReservarActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
     Button btnR;
@@ -38,10 +47,11 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
     RadioButton rbM;
     TextView tv;
     TextView tvCelda;
+    TextView titul;
     Intent i;
     boolean changed = false;
-    EditText textView;
-    EditText textView2;
+    EditText etEntrada;
+    EditText etSortida;
     int timer = 0;
     Calendar calendar1;
     SimpleDateFormat sdf;
@@ -49,6 +59,10 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
     Date date3 = null;
     Date date4 = null;
     RadioGroup rg;
+    TextView tvC;
+    TextView tvM;
+    int motosA;
+    int carA;
 
     boolean vehicle = true;
     boolean hora = true;
@@ -57,6 +71,9 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
     public static final String Tipus = "phoneKey";
 
     SharedPreferences sharedpreferences;
+
+    private FirebaseAuth mAuth;
+    FirebaseUser user;
 
 
     @Override
@@ -74,7 +91,7 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
 
         sharedpref();
 
-        textView.setOnClickListener(new View.OnClickListener() {
+        etEntrada.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 timer = 1;
@@ -83,7 +100,7 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
             }
         });
 
-        textView2.setOnClickListener(new View.OnClickListener() {
+        etSortida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 timer = 2;
@@ -106,18 +123,50 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
         btnC = findViewById(R.id.button11);
         tv = findViewById(R.id.textView35);
         tvCelda = findViewById(R.id.textView32);
-        textView =  findViewById(R.id.editText);
-        textView2 =  findViewById(R.id.editText2);
+        etEntrada =  findViewById(R.id.editText);
+        etSortida =  findViewById(R.id.editText2);
+        titul = findViewById(R.id.textView20);
+        tvC = findViewById(R.id.tvC);
+        tvM = findViewById(R.id.tvM);
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
     }
 
     public void setVar() {
-        textView.setShowSoftInputOnFocus(false);
-        textView.setInputType(InputType.TYPE_NULL);
-        textView.setFocusable(false);
+        etEntrada.setShowSoftInputOnFocus(false);
+        etEntrada.setInputType(InputType.TYPE_NULL);
+        etEntrada.setFocusable(false);
 
-        textView2.setShowSoftInputOnFocus(false);
-        textView2.setInputType(InputType.TYPE_NULL);
-        textView2.setFocusable(false);
+        etSortida.setShowSoftInputOnFocus(false);
+        etSortida.setInputType(InputType.TYPE_NULL);
+        etSortida.setFocusable(false);
+
+        getParking();
+    }
+
+    private void getParking(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Campus")
+                .document(titul.getText().toString())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists()) {
+                            String car = documentSnapshot.getString("DisponiblesC");
+                            if(car.equals("0")) tvC.setTextColor(Color.parseColor("#FF0101"));
+                            else tvC.setTextColor(Color.parseColor("#38D101"));
+                            tvC.setText(car+"/"+documentSnapshot.getString("MaxC"));
+                            carA = Integer.valueOf(car);
+
+                            String moto = documentSnapshot.getString("DisponiblesM");
+                            if(moto.equals("0")) tvM.setTextColor(Color.parseColor("#FF0101"));
+                            else tvM.setTextColor(Color.parseColor("#38D101"));
+                            tvM.setText(moto+"/"+documentSnapshot.getString("MaxM"));
+                            motosA = Integer.valueOf(moto);
+                        }
+                    }
+                });
     }
 
     public void actionBar() {
@@ -151,8 +200,8 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
             date4 = sdf.parse("23:00");
             date3 = sdf.parse("15:00");
 
-            textView.setText(sdf.format(calendar1.getTime()));
-            textView2.setText(sdf.format(calendar2.getTime()));
+            etEntrada.setText(sdf.format(calendar1.getTime()));
+            etSortida.setText(sdf.format(calendar2.getTime()));
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -163,16 +212,22 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
         } else if(calendar1.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY && date1.after(date3)) {
             desactivar();
         } else {
-            rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    if (checkedId == R.id.radioButton5) {
+            vehicleCheck();
+        }
+    }
+
+    private void vehicleCheck(){
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.radioButton5) {
+                    /* Moto */
+                    if(motosA == 0) {
                         vehicle = false;
                         btnR.setEnabled(false);
                         btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#8A7F0047")));
 
                         Toast.makeText(ReservarActivity.this, "No hi ha places disponibles", Toast.LENGTH_SHORT).show();
-
                     } else {
                         vehicle = true;
                         if(hora){
@@ -180,9 +235,26 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
                             btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#7F0047")));
                         }
                     }
+
+
+                } else {
+                    /* Car */
+                    if(carA == 0) {
+                        vehicle = false;
+                        btnR.setEnabled(false);
+                        btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#8A7F0047")));
+
+                        Toast.makeText(ReservarActivity.this, "No hi ha places disponibles", Toast.LENGTH_SHORT).show();
+                    } else {
+                        vehicle = true;
+                        if (hora) {
+                            btnR.setEnabled(true);
+                            btnR.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#7F0047")));
+                        }
+                    }
                 }
-            });
-        }
+            }
+        });
     }
 
     @Override
@@ -190,9 +262,9 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
         if(timer == 1) {
             try {
                 if(validation(1, hourOfDay, minute)) {
-                    textView.setText(hourOfDay + ":" + minute);
-                    Date date6 = sdf.parse(textView2.getText().toString());
-                    Date date7 = sdf.parse(textView.getText().toString());
+                    etEntrada.setText(hourOfDay + ":" + minute);
+                    Date date6 = sdf.parse(etSortida.getText().toString());
+                    Date date7 = sdf.parse(etEntrada.getText().toString());
 
                     if(date7.after(date6)) {
                         btnR.setEnabled(false);
@@ -210,7 +282,7 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
         else {
             try {
                 if(validation(2, hourOfDay, minute)) {
-                    textView2.setText(hourOfDay + ":" + minute);
+                    etSortida.setText(hourOfDay + ":" + minute);
                     hora = true;
                     if(vehicle){
                         btnR.setEnabled(true);
@@ -232,7 +304,7 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
         if(type == 1){
             if(date5.before(date2) || ((calendar1.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) && date5.after(date3)) || date5.after(date4)) return false;
         } else {
-            Date date6 = sdf.parse(textView.getText().toString());
+            Date date6 = sdf.parse(etEntrada.getText().toString());
             if(date5.before(date2) || ((calendar1.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) && date5.after(date3)) || date5.after(date4) || date5.before(date6)) return false;
         }
         return true;
@@ -255,9 +327,47 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
     }
 
     public void reserv(View v){
-        Intent a = new Intent(this, MapsActivity.class);
-        startActivity(a);
-        finish();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> docData = new HashMap<>();
+        docData.put("Campus", titul.getText());
+        docData.put("HEntrada", etEntrada.getText().toString());
+        docData.put("HSortida", etSortida.getText().toString());
+        docData.put("Parking", tvCelda.getText());
+
+        if(rbM.isChecked())  docData.put("Tipo", "Moto");
+        else docData.put("Tipo", "Car");
+
+        db.collection("Reserva").document(user.getUid())
+                .set(docData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        getParking();
+
+                        changeCampus();
+
+                        Intent a = new Intent(getApplication(), MapsActivity.class);
+                        startActivity(a);
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ReservarActivity.this, "Error al reserva, intenta un altre cop en uns minuts", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void changeCampus(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> docData = new HashMap<>();
+        if(rbM.isChecked())  docData.put("DisponiblesM", Integer.toString(motosA-1));
+        else docData.put("DisponiblesC", Integer.toString(carA-1));
+
+
+        db.collection("Campus").document(titul.getText().toString())
+                .update(docData);
     }
 
     @Override
@@ -266,7 +376,7 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
         if(requestCode == 1){
             if(resultCode == RESULT_OK) {
                 int ex = data.getIntExtra("celda", 0);
-                tvCelda.setText("Nª: "+ex);
+                tvCelda.setText(Integer.toString(ex));
             }
         }
     }

@@ -108,7 +108,7 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
 
     private void llamar(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Reserva").whereEqualTo("User", user.getUid())
+        /*db.collection("Reserva").whereEqualTo("User", user.getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -127,19 +127,40 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
                             }
                         }
                     }
+                });*/
+        db.collection("Reserva")
+                .document(user.getUid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists()) {
+                            sc.setVisibility(View.VISIBLE);
+                            com.setEnabled(true);
+                            cancel.setEnabled(true);
+                            com.setVisibility(View.VISIBLE);
+                            cancel.setVisibility(View.VISIBLE);
+                            titul.setText(documentSnapshot.getString("Campus"));
+                            placa.setText(documentSnapshot.getString("Parking"));
+                            entrada.setText(documentSnapshot.getString("HEntrada"));
+                            sortida.setText(documentSnapshot.getString("HSortida"));
+                            if(documentSnapshot.getString("Tipo").equals("Car")) vehicle.setBackgroundResource(R.drawable.car);
+                            else vehicle.setBackgroundResource(R.drawable.moto);
+                        }
+
+                    }
                 });
     }
 
     private void delete(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Reserva").document(documentID)
+        db.collection("Reserva").document(user.getUid())
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         titul.setText("No hi ha cap reserva");
                         sc.setVisibility(View.INVISIBLE);
-                        vehicle.setBackground(null);
                         Posi.remove();
                         com.setEnabled(false);
                         cancel.setEnabled(false);
@@ -185,7 +206,7 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                            delete();
+                        delete();
                         /* DELETE BASE DE DADES */
 
                     }
