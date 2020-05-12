@@ -101,7 +101,6 @@ public class DetailsParkingActivity extends AppCompatActivity implements OnMapRe
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
         LatLng recto;
         if(val == 1) {
             recto = new LatLng(41.609155, 0.624183);

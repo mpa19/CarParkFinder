@@ -35,6 +35,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -51,10 +52,9 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
     Button cancel;
     ScrollView sc;
 
-    String documentID;
-
-
     SupportMapFragment mapFragment;
+
+    boolean mapReady = false;
 
     private Marker Posi;
 
@@ -77,9 +77,6 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
         mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map4);
         mapFragment.getMapAsync(this);
-
-
-
 
         TextView tv = getActivity().findViewById(R.id.title);
         tv.setText(R.string.mires);
@@ -108,26 +105,6 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
 
     private void llamar(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        /*db.collection("Reserva").whereEqualTo("User", user.getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-
-                                sc.setVisibility(View.VISIBLE);
-                                com.setEnabled(true);
-                                cancel.setEnabled(true);
-                                com.setVisibility(View.VISIBLE);
-                                cancel.setVisibility(View.VISIBLE);
-                                documentID = document.getId();
-                                titul.setText(document.getString("Campus"));
-                                placa.setText(document.get("Parking").toString());
-                            }
-                        }
-                    }
-                });*/
         db.collection("Reserva")
                 .document(user.getUid())
                 .get()
@@ -144,8 +121,36 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
                             placa.setText(documentSnapshot.getString("Parking"));
                             entrada.setText(documentSnapshot.getString("HEntrada"));
                             sortida.setText(documentSnapshot.getString("HSortida"));
+
                             if(documentSnapshot.getString("Tipo").equals("Car")) vehicle.setBackgroundResource(R.drawable.car);
                             else vehicle.setBackgroundResource(R.drawable.moto);
+
+                            getLatLong();
+
+                        }
+
+                    }
+                });
+    }
+
+    private void getLatLong(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection(titul.getText().toString())
+                .document(placa.getText().toString())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists()) {
+
+
+                            while(true) if(mapReady) break;
+                            GeoPoint a = (GeoPoint) documentSnapshot.get("Posi");
+
+                            origin = new LatLng(a.getLatitude(), a.getLongitude());
+                            Posi = mMap.addMarker(new MarkerOptions().position(origin).title("Plaça Nº:"+placa.getText().toString()));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 17.0f));
                         }
 
                     }
@@ -194,9 +199,10 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        origin = new LatLng(41.615370, 0.619103);
-        Posi = mMap.addMarker(new MarkerOptions().position(origin).title("Plaça Nº: 5"));
+        origin = new LatLng(41.615451, 0.618851);
+        //Posi = mMap.addMarker(new MarkerOptions().position(origin).title("Plaça Nº: 5"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 17.0f));
+        mapReady = true;
     }
 
     public void clear(){
@@ -217,5 +223,12 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
                         dialogInterface.dismiss();
                     }
                 }).show();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 }
