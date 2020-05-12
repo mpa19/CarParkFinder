@@ -90,8 +90,6 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
 
         actionBar();
 
-        //controlTime();
-
         etEntrada.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,10 +147,29 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
         etSortida.setFocusable(false);
 
         if(val == 1) titul.setText("Campus de Cappont");
-        getParking();
+
+        checkReserva();
+
     }
 
-    private void getParking(){
+    private void checkReserva(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Reserva")
+                .document(user.getUid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists()) {
+                            desactivar();
+                            tv.setVisibility(View.VISIBLE);
+                            tv.setText("Ja tens una reserva activa!");
+                        } else getParking(0);
+                    }
+                });
+    }
+
+    private void getParking(final int i){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Campus")
                 .document(titul.getText().toString())
@@ -173,9 +190,10 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
                             tvM.setText(moto+"/"+documentSnapshot.getString("MaxM"));
                             motosA = Integer.valueOf(moto);
 
-                            //controlTime();
-                            vehicleCheck();
-                            sharedpref();
+                            if(i ==0) {
+                                controlTime();
+                                sharedpref();
+                            }
                         }
                     }
                 });
@@ -365,7 +383,7 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            getParking();
+                            getParking(1);
 
                             changeCampus();
 

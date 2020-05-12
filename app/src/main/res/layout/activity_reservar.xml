@@ -60,7 +60,6 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"
                         android:gravity="center_horizontal|center_vertical"
-                        android:text="160/160"
                         android:textColor="#38D101"
                         android:textSize="18sp"
                         android:textStyle="bold" />
