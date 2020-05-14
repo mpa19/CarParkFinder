@@ -39,6 +39,9 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
 
@@ -51,6 +54,7 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
     Button com;
     Button cancel;
     ScrollView sc;
+    String tipo;
 
     SupportMapFragment mapFragment;
 
@@ -60,7 +64,6 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
 
     private FirebaseAuth mAuth;
     FirebaseUser user;
-
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -98,9 +101,34 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), MapsActivity.class);
+                i.putExtra("Lat", origin.latitude);
+                i.putExtra("Long", origin.longitude);
                 startActivity(i);
             }
         });
+    }
+
+    public void inicializar(View view){
+        titul = view.findViewById(R.id.tvNom);
+        entrada = view.findViewById(R.id.textView39);
+        sortida = view.findViewById(R.id.textView40);
+        placa = view.findViewById(R.id.textView32);
+        vehicle = view.findViewById(R.id.imageView10);
+        com = view.findViewById(R.id.btnArr);
+        cancel = view.findViewById(R.id.btnCancelar);
+        sc = view.findViewById(R.id.sc1);
+
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        //origin = new LatLng(41.615451, 0.618851);
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 17.0f));
+        mapReady = true;
     }
 
     private void llamar(){
@@ -122,13 +150,18 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
                             entrada.setText(documentSnapshot.getString("HEntrada"));
                             sortida.setText(documentSnapshot.getString("HSortida"));
 
-                            if(documentSnapshot.getString("Tipo").equals("Car")) vehicle.setBackgroundResource(R.drawable.car);
-                            else vehicle.setBackgroundResource(R.drawable.moto);
+                            if(documentSnapshot.getString("Tipo").equals("Car")) {
+                                vehicle.setBackgroundResource(R.drawable.car);
+                                tipo = "Car";
+                            }
+                            else {
+                                vehicle.setBackgroundResource(R.drawable.moto);
+                                tipo = "Moto";
+                            }
 
                             getLatLong();
 
                         }
-
                     }
                 });
     }
@@ -144,7 +177,6 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if(documentSnapshot.exists()) {
 
-
                             while(true) if(mapReady) break;
                             GeoPoint a = (GeoPoint) documentSnapshot.get("Posi");
 
@@ -158,7 +190,7 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void delete(){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Reserva").document(user.getUid())
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -180,30 +212,40 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
                     }
                 });
 
-    }
-    public void inicializar(View view){
-        titul = view.findViewById(R.id.tvNom);
-        entrada = view.findViewById(R.id.textView39);
-        sortida = view.findViewById(R.id.textView40);
-        placa = view.findViewById(R.id.textView32);
-        vehicle = view.findViewById(R.id.imageView10);
-        com = view.findViewById(R.id.btnArr);
-        cancel = view.findViewById(R.id.btnCancelar);
-        sc = view.findViewById(R.id.sc1);
 
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
+        Map<String, Object> docData = new HashMap<>();
+        docData.put("Disponible", "Si");
+        db.collection(titul.getText().toString())
+                .document(placa.getText().toString())
+                .update(docData);
+
+
+        db.collection("Campus")
+                .document(titul.getText().toString())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists()) {
+                            Map<String, Object> docData = new HashMap<>();
+
+                            if(tipo.equals("Moto"))  {
+                                int z = Integer.parseInt(documentSnapshot.getString("DisponiblesM"))+1;
+                                docData.put("DisponiblesM", Integer.toString(z));
+                            }
+                            else {
+                                int z = Integer.parseInt(documentSnapshot.getString("DisponiblesC"))+1;
+                                docData.put("DisponiblesC", Integer.toString(z));
+                            }
+                            db.collection("Campus")
+                                    .document(titul.getText().toString())
+                                    .update(docData);
+                        }
+                    }
+                });
+
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        origin = new LatLng(41.615451, 0.618851);
-        //Posi = mMap.addMarker(new MarkerOptions().position(origin).title("Plaça Nº: 5"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 17.0f));
-        mapReady = true;
-    }
 
     public void clear(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -223,12 +265,6 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
                         dialogInterface.dismiss();
                     }
                 }).show();
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
 
     }
 }

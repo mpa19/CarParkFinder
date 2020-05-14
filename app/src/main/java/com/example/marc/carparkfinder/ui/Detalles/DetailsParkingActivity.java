@@ -106,7 +106,7 @@ public class DetailsParkingActivity extends AppCompatActivity implements OnMapRe
             recto = new LatLng(41.609155, 0.624183);
         } else recto = new LatLng(41.615451, 0.618851);
 
-        mMap.addMarker(new MarkerOptions().position(recto).title("Carrer del Bisbe Messeguer, 2, 25003 Lleida"));
+        mMap.addMarker(new MarkerOptions().position(recto));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(recto, 17.0f));
     }
 
@@ -118,7 +118,7 @@ public class DetailsParkingActivity extends AppCompatActivity implements OnMapRe
 
             } else i.putExtra("Campus", 2);
             startActivity(i);
-        } else Toast.makeText(this, "No hi ha places disponible actualment", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, "No hi ha places disponibles actualment", Toast.LENGTH_SHORT).show();
     }
 
     private void getParking(){

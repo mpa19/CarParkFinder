@@ -19,6 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.marc.carparkfinder.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,23 +32,30 @@ public class ParkingActivity extends AppCompatActivity {
     GridView gv;
     private int selected = -1;
 
+    /*"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32",
+        "33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62",
+        "63","64","65","66","67","68","69","70","71","72","73","74"*/
+    ArrayList<String> values =  new ArrayList<>();;
 
-    String[] values = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32",
-                        "33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62",
-                        "63","64","65","66","67","68","69","70","71","72","73","74"};
+    /* "63","64","65","66","67","68","69","70","71","72","73","74" */
+    ArrayList<String> valuesM =  new ArrayList<>();;
 
-    String[] valuesM = {"63","64","65","66","67","68","69","70","71","72","73","74"};
 
-    String[] carAval = {"1","2","3","4","5","6","7","8","9","10","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32",
-            "33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","52","53","54","55","56","57","58","59","60","61","62"};
+    /* "1","2","3","4","5","6","7","8","9","10","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32",
+            "33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","52","53","54","55","56","57","58","59","60","61","62" */
+    ArrayList<String> carAval =  new ArrayList<>();;
 
-    String[] motoAv = {};
+
+    ArrayList<String> motoAv =  new ArrayList<>();;
 
     List<String> lastSource1 =  new ArrayList<>();
     List<String> lastSourceM =  new ArrayList<>();
     List<String> lastSource2 =  new ArrayList<>();
     List<String> lastSource3 =  new ArrayList<>();
     String val;
+    String campus;
+
+    int max = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +63,12 @@ public class ParkingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_parking);
         Bundle extras = getIntent().getExtras();
         val = extras.getString("Tipo");
-
-        getUpList();
-
-        createAdapter();
+        campus = extras.getString("Campus");
 
         actionBar();
+
+        maxP();
+
 
         ImageView tv = findViewById(R.id.btnCheck);
         tv.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +83,74 @@ public class ParkingActivity extends AppCompatActivity {
                 } else Toast.makeText(ParkingActivity.this, R.string.sel, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void maxP(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Campus")
+                .document(campus)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists()) {
+                            max = Integer.parseInt(documentSnapshot.getString("Max"));
+                            for(int i = 1; i<=max; i++) {
+                                values.add(Integer.toString(i));
+                            }
+                        }
+                        getM();
+                    }
+                });
+
+    }
+
+    private void getM(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Campus")
+                .document(campus)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists()) {
+                            int a = Integer.parseInt(documentSnapshot.getString("MaxM"));
+
+                            for(int i = max-a+1; i<=max; i++) {
+                                valuesM.add(Integer.toString(i));
+                            }
+                        }
+                        availCar();
+                    }
+                });
+    }
+
+    private void availCar(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        for(int i = 1; i<=max; i++) {
+            final int finalI = i;
+            db.collection(campus)
+                    .document(Integer.toString(i))
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if(documentSnapshot.exists()) {
+                                String dispo = documentSnapshot.getString("Disponible");
+                                String tipo = documentSnapshot.getString("Tipo");
+                                if(tipo.equals("Car") && dispo.equals("Si")) {
+                                    carAval.add(Integer.toString(finalI));
+
+                                } else if(tipo.equals("Moto") && dispo.equals("Si")) {
+                                    motoAv.add(Integer.toString(finalI));
+                                }
+                            }
+                            getUpList();
+
+                            createAdapter();
+                        }
+                    });
+        }
     }
 
     public void createAdapter() {
@@ -99,6 +177,11 @@ public class ParkingActivity extends AppCompatActivity {
     }
 
     private void getUpList() {
+        lastSource1 =  new ArrayList<>();
+        lastSourceM =  new ArrayList<>();
+        lastSource2 =  new ArrayList<>();
+        lastSource3 =  new ArrayList<>();
+
         for(String item:values)
             lastSource1.add(item);
 
@@ -116,8 +199,6 @@ public class ParkingActivity extends AppCompatActivity {
     class GripAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
         Context context;
         List<String> lastSource;
-        Button button;
-
 
         public GripAdapter(List<String> values, Context context){
             this.context = context;

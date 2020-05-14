@@ -27,12 +27,14 @@ import com.example.marc.carparkfinder.ui.Reserva.SelectParking.ParkingActivity;
 import com.example.marc.carparkfinder.R;
 import com.example.marc.carparkfinder.ui.Reserva.TimerHelper.TimePickerFragment;
 import com.example.marc.carparkfinder.ui.Route.MapsActivity;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -361,6 +363,7 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
         i = new Intent(this, ParkingActivity.class);
         if(rbM.isChecked()) i.putExtra("Tipo", "Moto");
         else i.putExtra("Tipo", "Car");
+        i.putExtra("Campus", titul.getText().toString());
         startActivityForResult(i,1);
     }
 
@@ -387,9 +390,10 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
 
                             changeCampus();
 
-                            Intent a = new Intent(getApplication(), MapsActivity.class);
-                            startActivity(a);
-                            finish();
+                            reserP();
+
+                            goMap();
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -399,6 +403,36 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
                         }
                     });
         }
+    }
+
+    private void goMap(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(titul.getText().toString())
+                .document(tvCelda.getText().toString())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists()) {
+                            Intent a = new Intent(getApplication(), MapsActivity.class);
+                            GeoPoint g = (GeoPoint) documentSnapshot.get("Posi");
+                            a.putExtra("Lat", g.getLatitude());
+                            a.putExtra("Long", g.getLongitude());
+                            startActivity(a);
+                            finish();
+                        }
+                    }
+                });
+    }
+
+    private void reserP(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> docData = new HashMap<>();
+        docData.put("Disponible", "No");
+
+
+        db.collection(titul.getText().toString()).document(tvCelda.getText().toString())
+                .update(docData);
     }
 
     private void changeCampus(){

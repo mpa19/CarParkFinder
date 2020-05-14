@@ -102,7 +102,7 @@ public class ListCampusAdapter extends ArrayAdapter<Campus> {
                     } else i.putExtra("Campus", 2);
                     parent.getContext().startActivity(i);
                 } else if(!finalEnabled2) {
-                    Toast.makeText(parent.getContext(), "No hi ha places disponible actualment", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(parent.getContext(), "No hi ha places disponibles actualment", Toast.LENGTH_SHORT).show();
                 } else Toast.makeText(parent.getContext(), "No disponible actualment", Toast.LENGTH_SHORT).show();
             }
         });

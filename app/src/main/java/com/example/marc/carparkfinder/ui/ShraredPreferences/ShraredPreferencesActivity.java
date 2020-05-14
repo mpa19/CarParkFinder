@@ -18,6 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.marc.carparkfinder.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ShraredPreferencesActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     int selected = -1;
@@ -69,6 +75,7 @@ public class ShraredPreferencesActivity extends AppCompatActivity implements Ada
             }
         });
     }
+
 
     public void actionBar(){
         Toolbar tb = findViewById(R.id.toolbar7);

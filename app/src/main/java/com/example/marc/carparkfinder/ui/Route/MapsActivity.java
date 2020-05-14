@@ -71,8 +71,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     Polyline currentPolyline;
 
-    Boolean dontAskAgain = true;
-
     Boolean checked = false;
     Boolean aproved = false;
 
@@ -145,16 +143,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      * Time when the location was updated represented as a String.
      */
 
-
+    double lat;
+    double lon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        Bundle extras = getIntent().getExtras();
+        lat = extras.getInt("Lat");
+        lon = extras.getInt("Long");
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
 
         actionBar();
 
@@ -209,7 +214,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        recto = new LatLng(41.615370, 0.619103);
+        recto = new LatLng(lat, lon);
         mMap.addMarker(new MarkerOptions().position(recto));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(recto, 17.0f));
 
