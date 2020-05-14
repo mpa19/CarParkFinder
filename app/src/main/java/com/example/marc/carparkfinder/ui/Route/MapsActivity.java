@@ -56,6 +56,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -70,6 +73,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     LatLng origin;
 
     Polyline currentPolyline;
+
+    Boolean dontAskAgain = true;
 
     Boolean checked = false;
     Boolean aproved = false;
@@ -143,23 +148,24 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      * Time when the location was updated represented as a String.
      */
 
-    double lat;
-    double lon;
+
+    String campus;
+    String placa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        Bundle extras = getIntent().getExtras();
-        lat = extras.getInt("Lat");
-        lon = extras.getInt("Long");
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        Bundle extras = getIntent().getExtras();
+        campus = extras.getString("Campus");
+        placa = extras.getString("Placa");
 
+        getLatLong();
 
         actionBar();
 
@@ -180,6 +186,31 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     /* FIN onCreate */
+
+
+    private void getLatLong(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection(campus)
+                .document(placa)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists()) {
+
+                            while(true) if(mMap != null) break;
+                            GeoPoint a = (GeoPoint) documentSnapshot.get("Posi");
+
+                            recto = new LatLng(a.getLatitude(), a.getLongitude());
+                            mMap.addMarker(new MarkerOptions().position(recto).title("Plaça Nº:"+placa));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(recto, 17.0f));
+                            doMapStuf();
+                        }
+
+                    }
+                });
+    }
 
     /* Funcion encargada de crear el actionBar */
 
@@ -214,11 +245,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        recto = new LatLng(lat, lon);
+        /*recto = new LatLng(41.615370, 0.619103);
         mMap.addMarker(new MarkerOptions().position(recto));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(recto, 17.0f));
 
-        doMapStuf();
+        doMapStuf();*/
     }
 
     /* FIN Funcion para empezar el mapa */
@@ -304,23 +335,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     //new FetchURL(MapsActivity.this).execute(getUrl(origin, recto), "driving");
                 } else {
                     boolean showRationale = shouldShowRequestPermissionRationale(permission);
-                        if (!showRationale) {
-                                checked = true;
-                            showSnackbar(R.string.permission_denied_explanation,
-                                    R.string.settings, new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            // Build intent that displays the App settings screen.
-                                            Intent intent = new Intent();
-                                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                            Uri uri = Uri.fromParts("package",  getPackageName(), null);
-                                            intent.setData(uri);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            checked = false;
-                                            startActivity(intent);
-                                        }
-                                    });
-                        }
+                    if (!showRationale) {
+                        checked = true;
+                        showSnackbar(R.string.permission_denied_explanation,
+                                R.string.settings, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        // Build intent that displays the App settings screen.
+                                        Intent intent = new Intent();
+                                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                        Uri uri = Uri.fromParts("package",  getPackageName(), null);
+                                        intent.setData(uri);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        checked = false;
+                                        startActivity(intent);
+                                    }
+                                });
+                    }
                 }
             }
         }

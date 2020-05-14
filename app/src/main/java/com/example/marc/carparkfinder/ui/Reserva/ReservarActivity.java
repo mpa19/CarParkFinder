@@ -415,9 +415,8 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if(documentSnapshot.exists()) {
                             Intent a = new Intent(getApplication(), MapsActivity.class);
-                            GeoPoint g = (GeoPoint) documentSnapshot.get("Posi");
-                            a.putExtra("Lat", g.getLatitude());
-                            a.putExtra("Long", g.getLongitude());
+                            a.putExtra("Campus", titul.getText().toString());
+                            a.putExtra("Placa", tvCelda.getText().toString());
                             startActivity(a);
                             finish();
                         }

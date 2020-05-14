@@ -101,8 +101,8 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), MapsActivity.class);
-                i.putExtra("Lat", origin.latitude);
-                i.putExtra("Long", origin.longitude);
+                i.putExtra("Campus", titul.getText().toString());
+                i.putExtra("Placa", placa.getText().toString());
                 startActivity(i);
             }
         });
