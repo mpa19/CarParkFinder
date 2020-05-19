@@ -46,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
 
         init();
 
+        if (mAuth.getCurrentUser() != null) go();
+
         bntEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,9 +67,8 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                         editor.commit();
 
-                                        Intent i = new Intent(getApplication(), ManageMainActivity.class);
-                                        startActivity(i);
-                                        finish();
+                                        go();
+
                                     } else {
                                         Toast.makeText(getApplication(), "Email i/o contrasenya incorrectes!", Toast.LENGTH_SHORT).show();
                                     }
@@ -77,6 +78,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void go(){
+        Intent i = new Intent(getApplication(), ManageMainActivity.class);
+        startActivity(i);
+        finish();
     }
 
     private void init(){

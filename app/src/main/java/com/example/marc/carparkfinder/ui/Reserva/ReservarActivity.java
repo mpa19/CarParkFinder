@@ -136,7 +136,6 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
         tvM = findViewById(R.id.tvM);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-
     }
 
     public void setVar() {

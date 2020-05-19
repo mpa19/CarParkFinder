@@ -77,6 +77,7 @@ public class ProfileFragment extends Fragment {
                 .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        FirebaseAuth.getInstance().signOut();
                         Intent a = new Intent(getContext(), LoginActivity.class);
                         startActivity(a);
                         getActivity().finish();
