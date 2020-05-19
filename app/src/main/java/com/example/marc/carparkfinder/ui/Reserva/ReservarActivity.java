@@ -92,23 +92,7 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
 
         actionBar();
 
-        etEntrada.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timer = 1;
-                DialogFragment timePicker = new TimePickerFragment();
-                timePicker.show(getSupportFragmentManager(), "time picker");
-            }
-        });
 
-        etSortida.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timer = 2;
-                DialogFragment timePicker = new TimePickerFragment();
-                timePicker.show(getSupportFragmentManager(), "time picker");
-            }
-        });
     }
 
     public void sharedpref(){
@@ -165,7 +149,26 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
                             desactivar();
                             tv.setVisibility(View.VISIBLE);
                             tv.setText("Ja tens una reserva activa!");
-                        } else getParking(0);
+                        } else {
+                            etEntrada.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    timer = 1;
+                                    DialogFragment timePicker = new TimePickerFragment();
+                                    timePicker.show(getSupportFragmentManager(), "time picker");
+                                }
+                            });
+
+                            etSortida.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    timer = 2;
+                                    DialogFragment timePicker = new TimePickerFragment();
+                                    timePicker.show(getSupportFragmentManager(), "time picker");
+                                }
+                            });
+                            getParking(0);
+                        }
                     }
                 });
     }
@@ -191,7 +194,7 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
                             tvM.setText(moto+"/"+documentSnapshot.getString("MaxM"));
                             motosA = Integer.valueOf(moto);
 
-                            if(i ==0) {
+                            if(i == 0) {
                                 controlTime();
                                 sharedpref();
                             }
