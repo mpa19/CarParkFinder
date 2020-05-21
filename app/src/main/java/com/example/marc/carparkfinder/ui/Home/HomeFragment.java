@@ -62,6 +62,8 @@ public class HomeFragment extends Fragment {
 
 
         getParking();
+
+        
     }
 
     private void getParking(){
@@ -93,7 +95,6 @@ public class HomeFragment extends Fragment {
                         campusList2.add(new Campus(R.drawable.salut, getResources().getString(R.string.salut), "0/0", "0/0"));
                         campusList2.add(new Campus(R.drawable.etsea, getResources().getString(R.string.etsa), "0/0", "0/0"));
                         createList();
-
                     }
                 });
 
