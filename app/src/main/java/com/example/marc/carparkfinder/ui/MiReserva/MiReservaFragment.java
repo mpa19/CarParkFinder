@@ -1,8 +1,10 @@
 package com.example.marc.carparkfinder.ui.MiReserva;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +67,12 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
     private FirebaseAuth mAuth;
     FirebaseUser user;
 
+    SharedPreferences sharedpreferences;
+
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String Zoom = "zoomKey";
+
+    private float zoomMap = 17.0f;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -85,6 +93,8 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
         tv.setText(R.string.mires);
 
         inicializar(view);
+
+        check();
 
         llamar();
 
@@ -120,6 +130,16 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+
+        sharedpreferences = getContext().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+    }
+
+    private void check(){
+        if(sharedpreferences != null) {
+             zoomMap = sharedpreferences.getFloat(Zoom, 0.0f);
+        }
+
     }
 
     @Override
@@ -179,10 +199,9 @@ public class MiReservaFragment extends Fragment implements OnMapReadyCallback {
 
                             while(true) if(mapReady) break;
                             GeoPoint a = (GeoPoint) documentSnapshot.get("Posi");
-
                             origin = new LatLng(a.getLatitude(), a.getLongitude());
                             Posi = mMap.addMarker(new MarkerOptions().position(origin).title("Plaça Nº:"+placa.getText().toString()));
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 17.0f));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, zoomMap));
                         }
 
                     }

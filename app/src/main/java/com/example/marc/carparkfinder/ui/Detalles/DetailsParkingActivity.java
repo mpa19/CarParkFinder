@@ -3,7 +3,9 @@ package com.example.marc.carparkfinder.ui.Detalles;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -35,6 +37,13 @@ public class DetailsParkingActivity extends AppCompatActivity implements OnMapRe
     Boolean enabled = true;
     TextView titul;
 
+    SharedPreferences sharedpreferences;
+
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String Zoom = "zoomKey";
+
+    private float zoomMap = 17.0f;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +69,15 @@ public class DetailsParkingActivity extends AppCompatActivity implements OnMapRe
         titul = findViewById(R.id.tvNom);
         tvC = findViewById(R.id.tvC);
         tvM = findViewById(R.id.tvM);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+    }
+
+    private void check(){
+        if(sharedpreferences != null) {
+            zoomMap = sharedpreferences.getFloat(Zoom, 0.0f);
+        }
+
     }
 
     public void available(){
@@ -106,8 +124,9 @@ public class DetailsParkingActivity extends AppCompatActivity implements OnMapRe
             recto = new LatLng(41.609155, 0.624183);
         } else recto = new LatLng(41.615451, 0.618851);
 
+        check();
         mMap.addMarker(new MarkerOptions().position(recto));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(recto, 17.0f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(recto, zoomMap));
     }
 
     public void btnR(View v){

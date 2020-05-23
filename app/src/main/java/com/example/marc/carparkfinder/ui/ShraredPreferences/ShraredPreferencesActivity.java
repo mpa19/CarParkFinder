@@ -31,6 +31,8 @@ public class ShraredPreferencesActivity extends AppCompatActivity implements Ada
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String Campus = "nameKey";
     public static final String Tipus = "phoneKey";
+    public static final String Zoom = "zoomKey";
+
 
     SharedPreferences sharedpreferences;
 
@@ -51,7 +53,11 @@ public class ShraredPreferencesActivity extends AppCompatActivity implements Ada
         lv.setSelector(R.color.colorSel);
         
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
         final RadioButton rbM = findViewById(R.id.radioButton5);
+        final RadioButton rbNom = findViewById(R.id.radioButton7);
+        final RadioButton rbPoco = findViewById(R.id.radioButton);
+
 
 
         lv.setOnItemClickListener(this);
@@ -64,10 +70,18 @@ public class ShraredPreferencesActivity extends AppCompatActivity implements Ada
                 } else {
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     String type = "car";
+                    Float zoom = 19.5f;
+
+                    if(rbNom.isChecked()) zoom = 18.0f;
+                    else if(rbPoco.isChecked()) zoom = 16.5f;
+
                     if(rbM.isChecked()) type = "moto";
+
+                    editor.putFloat(Zoom, zoom);
                     editor.putInt(Campus, selected);
                     editor.putString(Tipus, type);
                     editor.commit();
+
                     Intent result = new Intent();
                     setResult(RESULT_OK, result);
                     finish();

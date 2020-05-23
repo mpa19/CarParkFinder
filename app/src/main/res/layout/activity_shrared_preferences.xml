@@ -97,6 +97,50 @@
                 android:layout_marginTop="10dp" />
         </RadioGroup>
 
+        <TextView
+            android:id="@+id/tvZoom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="Zoom en mapas:"
+            android:textColor="#7F0047"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/rg2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioButton6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:checked="true"
+                android:text="Mucho" />
+
+            <RadioButton
+                android:id="@+id/radioButton7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:text="Normal" />
+
+            <RadioButton
+                android:id="@+id/radioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="Poco" />
+        </RadioGroup>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
