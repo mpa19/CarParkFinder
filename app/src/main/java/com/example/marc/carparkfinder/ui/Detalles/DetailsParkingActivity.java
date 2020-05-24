@@ -76,6 +76,8 @@ public class DetailsParkingActivity extends AppCompatActivity implements OnMapRe
     private void check(){
         if(sharedpreferences != null) {
             zoomMap = sharedpreferences.getFloat(Zoom, 0.0f);
+            if(zoomMap == 0.0f) zoomMap = 17.0f;
+
         }
 
     }

@@ -41,6 +41,8 @@
     <string name="cancelRe">Estàs segur de voler cancel·lar la reserva?</string>
     <string name="settings">Configuració</string>
     <string name="permission_denied_explanation">S’ha denegat el permís, però es necessita per als principals funcionalitat.</string>
+    <string name="no_connection">Es necessari tindre una conexió a internet.</string>
+
     <string name="tancat">El parking es troba tancat</string>
     <string name="ruta">Ruta fins aparcament</string>
     <string name="GPS">  El GPS es troba deshabilitat, es necessari activar-lo per a crear la ruta!</string>

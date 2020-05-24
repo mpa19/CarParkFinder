@@ -77,6 +77,8 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
     private FirebaseAuth mAuth;
     FirebaseUser user;
     int val;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +140,6 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
     }
 
     private void checkReserva(){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Reserva")
                 .document(user.getUid())
                 .get()
@@ -174,7 +175,6 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
     }
 
     private void getParking(final int i){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Campus")
                 .document(titul.getText().toString())
                 .get()
@@ -373,7 +373,6 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
         if(tvCelda.getText().toString().equals("0"))
             Toast.makeText(this, "Es necessari elegir un aparcament", Toast.LENGTH_SHORT).show();
         else {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
             Map<String, Object> docData = new HashMap<>();
             docData.put("Campus", titul.getText());
             docData.put("HEntrada", etEntrada.getText().toString());
@@ -408,7 +407,6 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
     }
 
     private void goMap(){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(titul.getText().toString())
                 .document(tvCelda.getText().toString())
                 .get()
@@ -427,7 +425,6 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
     }
 
     private void reserP(){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> docData = new HashMap<>();
         docData.put("Disponible", "No");
 
@@ -437,7 +434,6 @@ public class ReservarActivity extends AppCompatActivity implements TimePickerDia
     }
 
     private void changeCampus(){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> docData = new HashMap<>();
         if(rbM.isChecked())  docData.put("DisponiblesM", Integer.toString(motosA-1));
         else docData.put("DisponiblesC", Integer.toString(carA-1));

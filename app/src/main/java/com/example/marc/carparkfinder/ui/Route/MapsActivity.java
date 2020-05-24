@@ -16,11 +16,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
@@ -73,8 +78,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     LatLng origin;
 
     Polyline currentPolyline;
-
-    Boolean dontAskAgain = true;
 
     Boolean checked = false;
     Boolean aproved = false;
@@ -152,6 +155,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     String campus;
     String placa;
 
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String Zoom = "zoomKey";
+    public static final String Xarxa = "xarxaKey";
+
+
+    private float zoomMap = 17.0f;
+    SharedPreferences sharedpreferences;
+
+    private ConnectivityManager cM;
+    private NetworkInfo nI;
+
+    private String xarxa = "WiFi";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,6 +181,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Bundle extras = getIntent().getExtras();
         campus = extras.getString("Campus");
         placa = extras.getString("Placa");
+
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+        check();
+        checkInternet();
 
         getLatLong();
 
@@ -185,8 +207,48 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         buildLocationSettingsRequest();
     }
 
+    private void checkInternet(){
+        cM = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        nI = cM.getActiveNetworkInfo();
+
+        if (nI != null) {
+            if(xarxa.equals("WiFi")) {
+                if (nI.getType() == ConnectivityManager.TYPE_WIFI && nI.isConnected()) {
+                    //"Wifi connected!";
+
+                } else {
+                    //"Mobile connected!";
+                    WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                    wifiManager.setWifiEnabled(true);                        }
+            }
+
+        } else {
+            //"No network operating!";
+           new AlertDialog.Builder(this)
+                   .setTitle("No tens connexió a internet")
+                   .setMessage("Activa les dades o el Wi-Fi per continuar")
+                   .setPositiveButton("Tornar a provar", new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialogInterface, int i) {
+                           checkInternet();
+                       }
+                   }).setCancelable(false)
+                   .show();
+        }
+    }
+
     /* FIN onCreate */
 
+    private void check(){
+        if(sharedpreferences != null) {
+            zoomMap = sharedpreferences.getFloat(Zoom, 0.0f);
+            xarxa = sharedpreferences.getString(Xarxa,"");
+
+            if(zoomMap == 0.0f) zoomMap = 17.0f;
+        }
+
+    }
 
     private void getLatLong(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -201,10 +263,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                             while(true) if(mMap != null) break;
                             GeoPoint a = (GeoPoint) documentSnapshot.get("Posi");
-
                             recto = new LatLng(a.getLatitude(), a.getLongitude());
                             mMap.addMarker(new MarkerOptions().position(recto).title("Plaça Nº:"+placa));
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(recto, 17.0f));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(recto, zoomMap));
                             doMapStuf();
                         }
 
@@ -461,7 +522,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             double longitude = mCurrentLocation.getLongitude();
             double latitude = mCurrentLocation.getLatitude();
             origin = new LatLng(latitude, longitude);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 17.0f));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, zoomMap));
             new FetchURL(MapsActivity.this).execute(getUrl(origin, recto), "driving");
         }
     }
